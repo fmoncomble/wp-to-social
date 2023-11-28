@@ -1,0 +1,66 @@
+body {
+  align-items: center;
+  background-color: white;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  width: 1000px;
+  padding: 10px;
+  font-weight: 500;
+  margin: 0 auto;
+}
+
+#options-container,
+#content {
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+legend {
+	 color:#000000;
+	 border: 1px solid;
+	 border-radius: 10px;
+	 padding: 10px;
+	 color: #4285F4;
+}
+
+fieldset {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+select,
+button {
+    border: 1px solid;
+    border-color: #E0E0E0;
+    border-radius: 4px;
+    height: 32px;
+    width: auto;
+    color: #4285F4;
+    background-color: white;
+    text-align: center;
+    font-weight: 500;
+    font-family: system-ui, sans-serif;
+}
+
+select,
+button:hover {
+	border-color: #BBDEFB;
+	background-color: rgba(33, 150, 243, .04);
+}
+
+button:active {
+	border: 2px solid;
+}
+
+.tweet-frame {
+	border: 1px solid;
+	border-color: #E0E0E0;
+	border-radius: 10px;
+	width: 500px;
+	text-align: left;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

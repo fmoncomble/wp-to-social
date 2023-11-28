@@ -1,0 +1,38 @@
+html {
+	border: none;
+	border-radius: 10px;
+	width: 236px;
+}
+
+body {
+    background-color: white;
+    text-align: center;
+    font-family: system-ui, sans-serif;
+    width: 236px;
+    height: 150px;
+    padding: 10px;
+}
+
+button {
+    border: 1px solid;
+    border-color: #E0E0E0;
+    border-radius: 4px;
+    height: 32px;
+    width: auto;
+    color: #4285F4;
+    background-color: white;
+    text-align: center;
+    font-weight: 500;
+    font-family: system-ui, sans-serif;
+}
+
+button:hover {
+	border-color: #BBDEFB;
+	background-color: rgba(33, 150, 243, .04);
+}
+
+button:active {
+	border: 2px solid;
+}
+
+
