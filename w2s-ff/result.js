@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             const html = await response.text();
             const page = parser.parseFromString(html, 'text/html');
-            const post = page.querySelector('.post-content-inner');
+            const post = page.querySelector('body [class*="post-content"]');
             const text = post.innerText;
 
             // Call the function to split into tweets

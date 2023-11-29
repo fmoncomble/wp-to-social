@@ -13,6 +13,10 @@
         {
           "version": "0.3",
           "update_link": "https://github.com/fmoncomble/wp-to-social/releases/download/v0.3/wp-to-social.xpi"
+        },
+        {
+          "version": "0.4",
+          "update_link": "https://github.com/fmoncomble/wp-to-social/releases/download/v0.4/wp-to-social.xpi"
         }
         
     ]
