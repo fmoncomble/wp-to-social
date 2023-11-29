@@ -4,8 +4,6 @@ body {
   text-align: center;
   font-family: system-ui, sans-serif;
   width: 1000px;
-  padding: 10px;
-  font-weight: 500;
   margin: 0 auto;
 }
 
@@ -27,13 +25,17 @@ legend {
 
 fieldset {
   padding: 20px;
+  border: 1px solid;
   border-radius: 10px;
+  border-color: #4285F4;
+  width: 455px;
+  margin: 0px;
 }
 
 select,
 button {
     border: 1px solid;
-    border-color: #E0E0E0;
+    border-color: #BBDEFB;
     border-radius: 4px;
     height: 32px;
     width: auto;
@@ -44,9 +46,9 @@ button {
     font-family: system-ui, sans-serif;
 }
 
-select,
+select:hover,
 button:hover {
-	border-color: #BBDEFB;
+	border-color: #4285F4;
 	background-color: rgba(33, 150, 243, .04);
 }
 
@@ -58,9 +60,26 @@ button:active {
 	border: 1px solid;
 	border-color: #E0E0E0;
 	border-radius: 10px;
-	width: 500px;
+	width: 478px;
 	text-align: left;
 	padding: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.tweet-frame:hover {
+	border-color: #4285F4;
+}
+
+.char-count {
+	font-size: small;
+	color: gray;
+	margin-right: 10px;
+	display: inline;
+	vertical-align: middle;
+}
+
+.copy-button {
+	width: 90px;
+	text-align: center;
 }

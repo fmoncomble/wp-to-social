@@ -1,0 +1,22 @@
+{
+  "addons": {
+    "{f61b7579-c1dc-4b5f-93b5-170a9473d804}": {
+      "updates": [
+        {
+          "version": "0.1",
+          "update_link": "https://github.com/fmoncomble/wp-to-social/releases/download/v0.1/wp-to-social.xpi"
+        },
+        {
+          "version": "0.2",
+          "update_link": "https://github.com/fmoncomble/wp-to-social/releases/download/v0.2/wp-to-social.xpi"
+        },
+        {
+          "version": "0.3",
+          "update_link": "https://github.com/fmoncomble/wp-to-social/releases/download/v0.3/wp-to-social.xpi"
+        }
+        
+    ]
+}
+}
+}
+        

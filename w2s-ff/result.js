@@ -30,7 +30,8 @@ document.addEventListener("DOMContentLoaded", async function() {
             console.log('Tweets: ', tweets);
 
             // Create and append tweetContainer
-            const tweetContainer = document.createElement('div');
+            const tweetContainer = document.getElementById('content');
+            tweetContainer.innerHTML = '';
             tweets.forEach(tweet => {
                 const tweetUnit = document.createElement('div');
                 tweetUnit.classList.add('tweet-frame')
@@ -38,7 +39,13 @@ document.addEventListener("DOMContentLoaded", async function() {
                 tweetText.textContent = tweet;
                 tweetUnit.appendChild(tweetText);
                 
+                const characterCount = document.createElement('span');
+                characterCount.classList.add('char-count');
+                characterCount.textContent = `${tweet.length}\/${socialOption.value}`;
+                tweetUnit.appendChild(characterCount);
+                
                 const copyButton = document.createElement('button');
+                copyButton.classList.add('copy-button');
                 copyButton.textContent = 'Copier';
                 copyButton.addEventListener('click', () => {
                 	copyToClipboard(tweet, copyButton)
@@ -47,10 +54,6 @@ document.addEventListener("DOMContentLoaded", async function() {
                 
                 tweetContainer.appendChild(tweetUnit);
             });
-
-            const body = document.getElementById("content");
-            body.innerHTML = '';
-            body.appendChild(tweetContainer);
 
         } catch (error) {
             console.error(error);
@@ -67,6 +70,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     	document.body.removeChild(textarea);
     	copyButton.style.backgroundColor = '#e6ffe6';
     	copyButton.style.color = '#006600';
+    	copyButton.style.borderColor = '#006600';
     	copyButton.textContent = 'Copié !';
     }
 
