@@ -7,8 +7,13 @@ body {
   margin: 0 auto;
 }
 
+#wrapper {
+	display: flex;
+}
+
 #options-container,
-#content {
+#text-content,
+#img-content {
   width: 500px;
   height: auto;
   padding: 20px;
@@ -65,6 +70,11 @@ button:active {
 	padding: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.tweet-image {
+	max-width: 100%;
+	height: auto;
 }
 
 .tweet-frame:hover {
