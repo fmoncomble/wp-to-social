@@ -11,19 +11,18 @@
 		<div id="options-container">
 			<fieldset id="options-field">
 				<legend>Sélectionner le réseau social</legend>
-				<select id="socialOption">
-					<option value="280">X/Twitter (280)</option>
-					<option value="500">Mastodon (500)</option>
-					<option value="300">Bluesky (300)</option>
-				</select>
-				<button id="createButton">Créer le fil</button>
+				<div id="button-container">
+					<select id="socialOption">
+						<option value="280">X/Twitter (280)</option>
+						<option value="500">Mastodon (500)</option>
+						<option value="300">Bluesky (300)</option>
+					</select>
+					<button id="createButton">Créer le fil</button>
+					<div id="loading-spinner"></div>
+				</div>
 			</fieldset>
 		</div>
-		<div id="wrapper">
-			<div id="text-content">
-			</div>
-			<div id="img-content">
-			</div>
+		<div id="content">
 		</div>
 	</body>
 </html>

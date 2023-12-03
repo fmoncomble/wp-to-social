@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "WP to Social",
-  "version": "0.5",
+  "version": "0.6",
   "description": "Extraire et segmenter un billet de blog pour le poster sur les r\u00e9seaux sociaux",
   "homepage_url": "https://github.com/fmoncomble/wp-to-social",
   "permissions": [
