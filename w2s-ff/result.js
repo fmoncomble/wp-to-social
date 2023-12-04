@@ -1,9 +1,74 @@
 document.addEventListener("DOMContentLoaded", async function() {
+    
+    const createButton = document.getElementById("createButton");
+    createButton.style.display = 'none';
+    createButton.addEventListener('click', extractPost);
+    
+    const retrieveMessage = document.getElementById('retrieveMessage');
+    const spinner = document.getElementById('loading-spinner');
+    
     // Get tab URL elements
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const blogUrl = urlParams.get("data");
-    console.log('Blog URL: ', blogUrl);
+    const postUrl = urlParams.get("data");
+    console.log('Post URL: ', postUrl);
+    
+    // Get blog domain name
+    const urlObject = new URL(postUrl);
+    const blogDomain = urlObject.hostname;
+    console.log('Blog domain = ', blogDomain);
+    
+    // Get post slug
+    const path = urlObject.pathname;
+    console.log('Path: ', path);
+    const cleanPath = path.replace(/\/$/, '');
+    const pathSegments = cleanPath.split('/');
+    console.log('Path segments ', pathSegments);
+    const postSlug = pathSegments.pop();
+    console.log('Post slug: ', postSlug);
+    
+    // Get WP post ID
+    async function getPostId() {
+    	try {
+    		retrieveMessage.style.display = 'block';
+    		spinner.style.display = 'block';
+    		const response = await fetch(`https://${blogDomain}/wp-json/wp/v2/posts?slug=${postSlug}`);
+    		if (response.ok) {
+				const data = await response.json();
+				if (data.length > 0) {
+					const postId = data[0].id;
+					console.log('Self-hosted post ID : ', postId);
+    				retrieveMessage.style.display = 'none';
+					spinner.style.display = 'none';
+					createButton.style.display = 'block';
+					return postId;
+				} else {
+					console.log('Self-hosted post ID not found.');
+				}
+    		} else {
+    			console.error('Error fetching self-hosted postID. Bypassing.');
+    			retrieveMessage.style.display = 'none';
+				spinner.style.display = 'none';
+				createButton.style.display = 'block';
+    		}
+			
+			return null;
+			
+    	} catch (error) {
+    		console.error('Error fetching post ID: ', error);
+    		retrieveMessage.style.display = 'none';
+            spinner.style.display = 'none';
+            createButton.style.display = 'block';
+            createButton.style.backgroundColor = '#ffe6e6';
+            createButton.style.color = '#e60000';
+            createButton.style.borderColor = '#e60000';
+            createButton.textContent = 'Échec';
+    		return null;
+    	}
+    }
+    
+    const postId = await getPostId();
+    console.log('Post ID : ', postId);
 
     // Social network option
     const socialOption = document.getElementById("socialOption");
@@ -12,29 +77,43 @@ document.addEventListener("DOMContentLoaded", async function() {
     async function extractPost() {
         try {
         	// Show loading spinner
-        	const spinner = document.getElementById('loading-spinner');
         	spinner.style.display = 'block';
         	
-            const parser = new DOMParser();
-            const response = await fetch(blogUrl);
+        	let postContent;
 
-            if (!response.ok) {
-                throw new Error("Failed to fetch page");
-            }
-
-            const html = await response.text();
-            const page = parser.parseFromString(html, 'text/html');
-            const post = page.querySelector('body [class*="post-content"]');
-            if (!post) {
-                console.error('No content found.');
-            };
-            const nodes = post.querySelectorAll('p, img');
+			const response = await fetch(`https://${blogDomain}/wp-json/wp/v2/posts/${postId}`);			
+			if (response.ok) {
+				const postData = await response.json();
+				postContent = postData.content.rendered;
+				console.log('Post content: ', postContent);
+			} else {
+				console.error('Failed to fetch self-hosted post content. Trying for Wordpress.com.');
+						
+				const response2 = await fetch(`https://public-api.wordpress.com/rest/v1.1/sites/${blogDomain}/posts/slug:${postSlug}`);
+				if (response2.ok) {
+					const postData2 = await response2.json();
+					postContent = postData2.content;
+					console.log('Post content: ', postContent);
+				} else {
+					console.error('Failed to fetch Wordpress.com post content.');
+				}
+			}
+/* 
+			const postData = await response.json();
+			const postContent = postData.content.rendered;
+			console.log('Post content: ', postContent);
+ */
+			
+			const tempContainer = document.createElement('div');
+			tempContainer.innerHTML = postContent;
+			
+			const nodes = tempContainer.querySelectorAll('p, img');
             if (nodes.length > 0) {
                 console.log('Nodes found: ', nodes);
             } else {
                 console.error('No nodes found.');
             };
-
+			
             const tweetContainer = document.getElementById('content');
             tweetContainer.innerHTML = '';
 
@@ -61,6 +140,12 @@ document.addEventListener("DOMContentLoaded", async function() {
                 }
             });
             
+            // Create last tweet with blog post URL
+            const lastTweetText = `Un billet à retrouver ici :
+${postUrl}`;
+            const lastTweet = createTweetUnit(lastTweetText);
+            tweetContainer.appendChild(lastTweet);
+            
             // Hide loading spinner after extraction
             spinner.style.display = 'none';
 
@@ -68,6 +153,12 @@ document.addEventListener("DOMContentLoaded", async function() {
             console.error(error);
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'none';
+            createButton.style.display = 'block';
+            createButton.style.backgroundColor = '#ffe6e6';
+            createButton.style.color = '#e60000';
+            createButton.style.borderColor = '#e60000';
+            createButton.textContent = 'Échec';
+            
         }
     };
 
@@ -196,6 +287,4 @@ document.addEventListener("DOMContentLoaded", async function() {
         return tweets;
     }
 
-    const createButton = document.getElementById("createButton");
-    createButton.addEventListener('click', extractPost);
 });

@@ -102,6 +102,13 @@ button:active {
 	align-items: center;
 }
 
+#retrieveMessage {
+    color: #4285F4;
+    display: none;
+    margin-left: 10px;
+    font-size: small;
+}
+
 #loading-spinner {
   display: none;
   margin-left: 10px;
