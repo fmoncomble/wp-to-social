@@ -18,3 +18,7 @@ Extraire et segmenter le texte d'un billet WordPress pour le poster sur X/Mastod
 - Affichage et copie des posts segmentés :  
   ![Screenshot 2023-12-04 at 14 00 16](https://github.com/fmoncomble/wp-to-social/assets/59739627/77118c36-00f5-4a5c-9c05-23bbffa044c4)
 
+- Exemple de publication :  
+  ![Screenshot 2023-12-04 at 14 14 42](https://github.com/fmoncomble/wp-to-social/assets/59739627/0425db21-0df1-4e6e-a4c6-6895a55fde88)
+
+
