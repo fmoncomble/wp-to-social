@@ -52,6 +52,7 @@ button {
 
 #createButton {
 	margin-left: 10px;
+	display: none;
 }
 
 select:hover,
@@ -107,6 +108,21 @@ button:active {
     display: none;
     margin-left: 10px;
     font-size: small;
+}
+
+#errorMessage {
+    border: 1px solid;
+    border-color: #e60000;
+    border-radius: 4px;
+    height: 32px;
+    width: auto;
+    color: #e60000;
+    background-color: #ffe6e6;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+    margin-left: 10px;
+    font-family: system-ui, sans-serif;
 }
 
 #loading-spinner {

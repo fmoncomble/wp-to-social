@@ -1,119 +1,113 @@
 document.addEventListener("DOMContentLoaded", async function() {
-    
+
+    // Get interface elements
     const createButton = document.getElementById("createButton");
-    createButton.style.display = 'none';
     createButton.addEventListener('click', extractPost);
-    
     const retrieveMessage = document.getElementById('retrieveMessage');
+    const errorMessage = document.getElementById('errorMessage');
     const spinner = document.getElementById('loading-spinner');
-    
-    // Get tab URL elements
+
+    // Get post URL
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const postUrl = urlParams.get("data");
     console.log('Post URL: ', postUrl);
-    
-    // Get blog domain name
-    const urlObject = new URL(postUrl);
-    const blogDomain = urlObject.hostname;
-    console.log('Blog domain = ', blogDomain);
-    
-    // Get post slug
-    const path = urlObject.pathname;
-    console.log('Path: ', path);
-    const cleanPath = path.replace(/\/$/, '');
-    const pathSegments = cleanPath.split('/');
-    console.log('Path segments ', pathSegments);
-    const postSlug = pathSegments.pop();
-    console.log('Post slug: ', postSlug);
-    
-    // Get WP post ID
-    async function getPostId() {
-    	try {
-    		retrieveMessage.style.display = 'block';
-    		spinner.style.display = 'block';
-    		const response = await fetch(`https://${blogDomain}/wp-json/wp/v2/posts?slug=${postSlug}`);
-    		if (response.ok) {
-				const data = await response.json();
-				if (data.length > 0) {
-					const postId = data[0].id;
-					console.log('Self-hosted post ID : ', postId);
-    				retrieveMessage.style.display = 'none';
-					spinner.style.display = 'none';
-					createButton.style.display = 'block';
-					return postId;
-				} else {
-					console.log('Self-hosted post ID not found.');
-				}
-    		} else {
-    			console.error('Error fetching self-hosted postID. Bypassing.');
-    			retrieveMessage.style.display = 'none';
-				spinner.style.display = 'none';
-				createButton.style.display = 'block';
-    		}
-			
-			return null;
-			
-    	} catch (error) {
-    		console.error('Error fetching post ID: ', error);
-    		retrieveMessage.style.display = 'none';
-            spinner.style.display = 'none';
-            createButton.style.display = 'block';
-            createButton.style.backgroundColor = '#ffe6e6';
-            createButton.style.color = '#e60000';
-            createButton.style.borderColor = '#e60000';
-            createButton.textContent = 'Échec';
-    		return null;
-    	}
-    }
-    
-    const postId = await getPostId();
-    console.log('Post ID : ', postId);
 
-    // Social network option
+    // Get REST API link
+    async function getApiLink() {
+        try {
+            retrieveMessage.style.display = 'block';
+            spinner.style.display = 'block';
+            const parser = new DOMParser();
+            const response = await fetch(postUrl);
+            if (!response.ok) {
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'Site non accessible';
+                throw new Error('Failed to fetch post');
+            }
+            const html = await response.text();
+            const page = parser.parseFromString(html, 'text/html');
+            const head = page.querySelector('head');
+            const link = head.querySelector('link[rel="alternate"][type="application/json"]');
+            if (link) {
+                // Self-hosted blog method
+                const apiLink = link.getAttribute('href');
+                retrieveMessage.style.display = 'none';
+                spinner.style.display = 'none';
+                createButton.style.display = 'block';
+                return apiLink;
+            } else {
+                // Wordpress.com method				
+                // Get blog domain name and post slug
+                const urlObject = new URL(postUrl);
+                const blogDomain = urlObject.hostname;
+                console.log('Blog domain = ', blogDomain);
+                const path = urlObject.pathname;
+                console.log('Path: ', path);
+                const cleanPath = path.replace(/\/$/, '');
+                const pathSegments = cleanPath.split('/');
+                console.log('Path segments ', pathSegments);
+                const postSlug = pathSegments.pop();
+                console.log('Post slug: ', postSlug);
+
+                // Build API link
+                const apiLink = `https://public-api.wordpress.com/rest/v1.1/sites/${blogDomain}/posts/slug:${postSlug}`
+                const response = await fetch(apiLink);
+                if (!response.ok) {
+                    spinner.style.display = 'none';
+                    retrieveMessage.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Site non pris en charge';
+                    throw new Error('Not a Wordpress site');
+                }
+                retrieveMessage.style.display = 'none';
+                spinner.style.display = 'none';
+                createButton.style.display = 'block';
+                return apiLink;
+            }
+        } catch (error) {
+            console.error('Failed to fetch API link \/ Not a Wordpress site');
+            spinner.style.display = 'none';
+            retrieveMessage.style.display = 'none';
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = 'Site non pris en charge';
+            return null;
+        }
+    }
+
+    // Pass REST API link
+    const apiLink = await getApiLink();
+    console.log('Post API link: ', apiLink);
+
+    // Get social network option
     const socialOption = document.getElementById("socialOption");
 
     // Function to extract blog post
     async function extractPost() {
         try {
-        	// Show loading spinner
-        	spinner.style.display = 'block';
-        	
-        	let postContent;
+            spinner.style.display = 'block';
 
-			const response = await fetch(`https://${blogDomain}/wp-json/wp/v2/posts/${postId}`);			
-			if (response.ok) {
-				const postData = await response.json();
-				postContent = postData.content.rendered;
-				console.log('Post content: ', postContent);
-			} else {
-				console.error('Failed to fetch self-hosted post content. Trying for Wordpress.com.');
-						
-				const response2 = await fetch(`https://public-api.wordpress.com/rest/v1.1/sites/${blogDomain}/posts/slug:${postSlug}`);
-				if (response2.ok) {
-					const postData2 = await response2.json();
-					postContent = postData2.content;
-					console.log('Post content: ', postContent);
-				} else {
-					console.error('Failed to fetch Wordpress.com post content.');
-				}
-			}
-/* 
-			const postData = await response.json();
-			const postContent = postData.content.rendered;
-			console.log('Post content: ', postContent);
- */
-			
-			const tempContainer = document.createElement('div');
-			tempContainer.innerHTML = postContent;
-			
-			const nodes = tempContainer.querySelectorAll('p, img');
+            let postContent;
+
+            const response = await fetch(apiLink);
+            const postData = await response.json();
+            intPostContent = postData.content.rendered;
+            if (intPostContent) {
+                postContent = intPostContent;
+            } else if (!intPostContent) {
+                postContent = postData.content;
+            }
+
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = postContent;
+
+            const nodes = tempContainer.querySelectorAll('p, img');
             if (nodes.length > 0) {
                 console.log('Nodes found: ', nodes);
             } else {
                 console.error('No nodes found.');
             };
-			
+
             const tweetContainer = document.getElementById('content');
             tweetContainer.innerHTML = '';
 
@@ -139,13 +133,13 @@ document.addEventListener("DOMContentLoaded", async function() {
                     });
                 }
             });
-            
+
             // Create last tweet with blog post URL
             const lastTweetText = `Un billet à retrouver ici :
 ${postUrl}`;
             const lastTweet = createTweetUnit(lastTweetText);
             tweetContainer.appendChild(lastTweet);
-            
+
             // Hide loading spinner after extraction
             spinner.style.display = 'none';
 
@@ -154,11 +148,8 @@ ${postUrl}`;
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'none';
             createButton.style.display = 'block';
-            createButton.style.backgroundColor = '#ffe6e6';
-            createButton.style.color = '#e60000';
-            createButton.style.borderColor = '#e60000';
-            createButton.textContent = 'Échec';
-            
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = 'Échec de l\'extraction';
         }
     };
 
