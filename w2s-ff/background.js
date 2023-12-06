@@ -1,11 +1,3 @@
-browser.browserAction.onClicked.addListener(tab => {
-	let popupHtml = browser.i18n.getMessage("popupHtml");
-	
-	browser.browserAction.setPopup({popup: popupHtml});
-	
-	browser.browserAction.openPopup();
-});
-
 browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === "generateUrl") {
         browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {

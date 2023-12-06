@@ -7,10 +7,6 @@ body {
   margin: 0 auto;
 }
 
-#wrapper {
-	display: flex;
-}
-
 #options-container,
 #content {
   width: 500px;
@@ -20,7 +16,6 @@ body {
 }
 
 legend {
-	 color:#000000;
 	 border: 1px solid;
 	 border-radius: 10px;
 	 padding: 10px;
@@ -74,6 +69,7 @@ button:active {
 	padding: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	overflow: auto;
 }
 
 .tweet-image {
@@ -103,6 +99,7 @@ button:active {
 	align-items: center;
 }
 
+#post-count,
 #retrieveMessage {
     color: #4285F4;
     display: none;

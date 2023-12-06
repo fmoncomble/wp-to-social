@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function() {
 
     // Get interface elements
+    const tweetContainer = document.getElementById('content');    
     const createButton = document.getElementById("createButton");
     createButton.addEventListener('click', extractPost);
     const retrieveMessage = document.getElementById('retrieveMessage');
@@ -46,7 +47,6 @@ document.addEventListener("DOMContentLoaded", async function() {
                 console.log('Path: ', path);
                 const cleanPath = path.replace(/\/$/, '');
                 const pathSegments = cleanPath.split('/');
-                console.log('Path segments ', pathSegments);
                 const postSlug = pathSegments.pop();
                 console.log('Post slug: ', postSlug);
 
@@ -101,19 +101,30 @@ document.addEventListener("DOMContentLoaded", async function() {
             const tempContainer = document.createElement('div');
             tempContainer.innerHTML = postContent;
 
-            const nodes = tempContainer.querySelectorAll('p, img');
+            const nodes = tempContainer.querySelectorAll('p, img, ul, ol');
             if (nodes.length > 0) {
                 console.log('Nodes found: ', nodes);
             } else {
                 console.error('No nodes found.');
             };
 
-            const tweetContainer = document.getElementById('content');
             tweetContainer.innerHTML = '';
 
             // Extract content depending on node type
             Array.from(nodes).forEach(node => {
                 if (node.textContent) {
+                	const links = node.querySelectorAll('a');
+                    if (links.length > 0) {
+                    	links.forEach(link => {
+                    		const img = link.querySelector('img')
+                    		const hashtag = link.textContent.match(/#\w+?/);
+                    		const urlText = link.textContent.match(/\w*\/\w*/);
+                    		if (!img && !hashtag && urlText) {
+								const url = link.getAttribute('href');
+								link.textContent = '(' + url + ')';  
+                    		};            		
+                    	});
+                    };
                     const text = node.innerText;
                     const textTweets = splitIntoTweets(text);
                     console.log('Tweets: ', textTweets);
@@ -142,6 +153,14 @@ ${postUrl}`;
 
             // Hide loading spinner after extraction
             spinner.style.display = 'none';
+            
+            // Count generated tweets
+            const tweetUnits = tweetContainer.querySelectorAll('.tweet-frame');
+            console.log('Number of posts generated: ', tweetUnits.length);
+            const tweetCount = tweetUnits.length;
+            const tweetCounter = document.getElementById('post-count');
+            tweetCounter.style.display = 'block';
+            tweetCounter.textContent = `${tweetCount} posts créés`;
 
         } catch (error) {
             console.error(error);
@@ -161,12 +180,27 @@ ${postUrl}`;
 
         const contentElement = isImage ? createImageElement(content) : createTextElement(content);
         tweetUnit.appendChild(contentElement);
-
+		
+		// Add character count
         const characterCount = document.createElement('span');
         characterCount.classList.add('char-count');
-        characterCount.textContent = `${content.length}\/${socialOption.value}`;
-        tweetUnit.appendChild(characterCount);
-
+        
+        const containsUrl = containsURL(content);
+        if (containsUrl) {
+        	const urls = extractURLs(content);
+        	let cleanContent = content;
+        	urls.forEach(url => {
+        		cleanContent = cleanContent.replace(url, '');
+        	});
+        	cleanContentCharCount = (cleanContent.length += 25);
+        	characterCount.textContent = `~${cleanContentCharCount}\/${socialOption.value}`;
+        	tweetUnit.appendChild(characterCount);
+        } else if (!isImage) {
+	        characterCount.textContent = `${content.length}\/${socialOption.value}`;
+    	    tweetUnit.appendChild(characterCount);
+    	};
+		
+		// Add copy button
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
         copyButton.textContent = 'Copier';
@@ -252,30 +286,86 @@ ${postUrl}`;
             copyButton.textContent = 'Échec de la copie. Faites un clic droit sur l\'image et choisissez "Copier l\'image"';
         }
     }
-
-
+    
     // Function to split text into tweets
     function splitIntoTweets(fullText) {
         const maxTweetLength = socialOption.value;
         const separatorRegex = /([.!?,;:])/;
-        const sentences = fullText.split(separatorRegex);
+        const urls = extractURLs(fullText);
+        
+        let textNoUrls = fullText;
+        urls.forEach((url, index) => {
+        	if (url.length > 25) {
+				const placeholder = `__URL_${index}__`;
+				textNoUrls = textNoUrls.replace(url, placeholder);
+        	};
+        });
+        
+        const chunks = textNoUrls.split(separatorRegex);          
         let currentTweet = '';
         const tweets = [];
 
-        for (const sentence of sentences) {
-            if (sentence.match(separatorRegex)) {
-                currentTweet += sentence;
-            } else if ((currentTweet + sentence).length <= maxTweetLength) {
-                currentTweet += sentence;
-            } else {
-                tweets.push(currentTweet.trim());
-                currentTweet = sentence;
-            }
-        }
+        for (const chunk of chunks) {
+			const intChunk = chunk.replace(/__URL_(\d+?)__/, '');
+			const intChunkCount = intChunk.length + 25;
+			
+			const intTweet = currentTweet.replace(/\((http[s]?:\/\/[^\s)]+)\)/, '');
+			const intTweetCount = intTweet.length + 25;
 
+			const newChunk = chunk.replace(/__URL_(\d+?)__/, (match, captureGroup) => urls[captureGroup] || '');
+
+			console.log('Chunk: ', newChunk);
+    
+        	const chunkContainsUrl = containsURL(newChunk);
+        	const tweetContainsUrl = containsURL(currentTweet);
+        	        	      	
+        	if (currentTweet !== '' && currentTweet.length < maxTweetLength && chunk.match(separatorRegex)) {
+        		currentTweet += chunk;
+        	} else if (currentTweet.length === maxTweetLength && chunk.match(separatorRegex)) {
+        		tweets.push(currentTweet.trim());
+        		currentTweet = '';
+        	} else if (chunkContainsUrl) {
+        		if (tweetContainsUrl && intTweetCount + intChunkCount < maxTweetLength) {
+        			currentTweet += newChunk;
+        		} else if (!tweetContainsUrl && currentTweet.length + intChunkCount < maxTweetLength) {
+        			currentTweet += newChunk;
+        		} else {
+        			tweets.push(currentTweet.trim());
+        			currentTweet = newChunk;
+        		}
+        	} else if (!chunkContainsUrl) {
+        		if (tweetContainsUrl && intTweetCount + newChunk.length < maxTweetLength) {
+        			currentTweet += newChunk;
+        		} else if (!tweetContainsUrl && currentTweet.length + newChunk.length < maxTweetLength) {
+        			currentTweet += newChunk;
+        		} else {
+        			tweets.push(currentTweet.trim());
+        			currentTweet = newChunk;
+        		}
+        	} else {
+        		tweets.push(currentTweet.trim());
+        		currentTweet = newChunk;
+        	}
+        }
+        
+        	
         tweets.push(currentTweet.trim());
 
         return tweets;
     }
+    
+    // Helper function to check if a string contains a URL
+	function containsURL(str) {
+		const urlRegex = /\((http[s]?:\/\/[^\s)]+)\)/;
+		return urlRegex.test(str);
+	}
+    
+    // Helper function to extract URLs from text content
+	function extractURLs(str) {
+		const urlRegex = /\((http[s]?:\/\/[^\s)]+)\)/g;
+		return str.match(urlRegex) || [];
+	}
+
+
 
 });
