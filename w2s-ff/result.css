@@ -1,139 +1,219 @@
 body {
-  align-items: center;
-  background-color: white;
-  text-align: center;
-  font-family: system-ui, sans-serif;
-  width: 1000px;
-  margin: 0 auto;
+     align-items: center;
+     background-color: white;
+     text-align: center;
+     font-family: system-ui, sans-serif;
+     width: 1000px;
+     margin: 0 auto;
 }
-
-#options-container,
-#content {
-  width: 500px;
-  height: auto;
-  padding: 20px;
-  border-radius: 20px;
+ #options-container, #content {
+     width: 500px;
+     height: auto;
+     padding: 20px;
+     border-radius: 20px;
 }
-
-legend {
-	 border: 1px solid;
-	 border-radius: 10px;
-	 padding: 10px;
-	 color: #4285F4;
+ legend {
+     border: none;
 }
-
-fieldset {
-  padding: 20px;
-  border: 1px solid;
-  border-radius: 10px;
-  border-color: #4285F4;
-  width: 455px;
-  margin: 0px;
+ fieldset {
+     padding: 20px;
+     border: 1px solid;
+     border-radius: 10px;
+     border-color: #4285F4;
+     width: 455px;
+     margin: 0px;
+     text-align: left;
+     color: #4285F4;
 }
-
-select,
-button {
-    border: 1px solid;
-    border-color: #cee0fd;
-    border-radius: 4px;
-    height: 32px;
-    width: auto;
-    color: #4285F4;
-    background-color: white;
-    text-align: center;
-    font-weight: 500;
-    font-family: system-ui, sans-serif;
+ select, button {
+     border: 1px solid;
+     border-color: #cee0fd;
+     border-radius: 4px;
+     height: 32px;
+     width: auto;
+     padding-left: 1em;
+     padding-right: 1em;
+     color: #4285F4;
+     background-color: white;
+     text-align: center;
+     font-weight: 500;
+     font-family: system-ui, sans-serif;
 }
-
-#createButton {
-	margin-left: 10px;
-	display: none;
+ #createButton {
+     margin-left: 10px;
+     display: none;
 }
-
-select:hover,
-button:hover {
-	border-color: #4285F4;
-	background-color: rgba(33, 150, 243, .04);
+ select:hover, button:hover {
+     border-color: #4285F4;
+     background-color: rgba(33, 150, 243, .04);
 }
-
-button:active {
-	border: 2px solid;
+ button:active {
+     border: 2px solid;
 }
-
-.tweet-frame {
-	border: 1px solid;
-	border-color: #cee0fd;
-	border-radius: 10px;
-	width: 478px;
-	text-align: left;
-	padding: 10px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	overflow: auto;
+ .tweet-frame {
+     border: 1px solid;
+     border-color: #cee0fd;
+     border-radius: 10px;
+     width: 478px;
+     text-align: left;
+     padding: 10px;
+     margin-top: 10px;
+     margin-bottom: 10px;
+     overflow: auto;
 }
-
-.tweet-image {
-	max-width: 100%;
-	height: auto;
+ .tweet-image {
+     max-width: 100%;
+     height: auto;
 }
-
-.tweet-frame:hover {
-	border-color: #4285F4;
+ .tweet-frame:hover {
+     border-color: #4285F4;
 }
-
-.char-count {
-	font-size: small;
-	color: gray;
-	margin-right: 10px;
-	display: inline;
-	vertical-align: middle;
+ .char-count {
+     font-size: small;
+     color: gray;
+     margin-right: 10px;
+     display: inline;
+     vertical-align: middle;
 }
-
-.copy-button {
-	width: 90px;
-	text-align: center;
+ .copy-button {
+     width: 90px;
+     text-align: center;
+     margin-right: 10px;
 }
-
-#button-container {
-	display: flex;
-	align-items: center;
+ #button-container {
+     display: flex;
+     align-items: center;
 }
-
-#post-count,
-#retrieveMessage {
-    color: #4285F4;
-    display: none;
-    margin-left: 10px;
-    font-size: small;
+ #post-count, #retrieveMessage {
+     color: #4285F4;
+     display: none;
+     margin-left: 10px;
+     font-size: small;
 }
-
-#errorMessage {
-    border: 1px solid;
-    border-color: #e60000;
-    border-radius: 4px;
-    height: 32px;
-    width: auto;
-    color: #e60000;
-    background-color: #ffe6e6;
-    text-align: center;
-    font-weight: 500;
-    display: none;
-    margin-left: 10px;
-    font-family: system-ui, sans-serif;
+ #errorMessage {
+     border: 1px solid;
+     border-color: #e60000;
+     border-radius: 4px;
+     height: 32px;
+     width: auto;
+     color: #e60000;
+     background-color: #ffe6e6;
+     text-align: center;
+     font-weight: 500;
+     display: none;
+     margin-left: 10px;
+     font-family: system-ui, sans-serif;
 }
-
-#loading-spinner {
-  display: none;
-  margin-left: 10px;
-  border: 4px solid #cee0fd;
-  border-left: 4px solid #4285F4;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  animation: spin 1s linear infinite;
+ #loading-spinner {
+     display: none;
+     margin-left: 10px;
+     border: 4px solid #cee0fd;
+     border-left: 4px solid #4285F4;
+     border-radius: 50%;
+     width: 12px;
+     height: 12px;
+     animation: spin 1s linear infinite;
 }
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+ @keyframes spin {
+     0% {
+         transform: rotate(0deg);
+    }
+     100% {
+         transform: rotate(360deg);
+    }
 }
+ .modal {
+     display: none;
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: rgb(0,0,0);
+     background-color: rgba(0,0,0,0.4);
+}
+ .modal-content {
+     background-color: #282c37;
+     color: #ffff;
+     margin: 15% auto;
+     padding: 20px;
+     width: 30%;
+     border-radius: 10px;
+}
+ .mastodon-logo {
+     margin-top: 20px;
+}
+ #launch-mastodon {
+     background-color: #595aff;
+     border-color: #595aff;
+     color: #ffffff;
+     margin-left: 10px;
+     cursor: pointer;
+}
+ #launch-mastodon:hover {
+     background-color: #8080ff;
+     border-color: #8080ff;
+}
+ .close {
+     float: right;
+     cursor: pointer;
+     font-size: 28px;
+     font-weight: bold;
+     border: none;
+     background: none;
+}
+ .close:hover, .close:focus {
+     color: #808080;
+}
+ #instanceLoader {
+     background-color: #131419;
+     height: 32px;
+     color: #ffffff;
+     border: none;
+     border-radius: 4px;
+     font-size: inherit;
+     outline: none;
+}
+ .init-thread {
+     margin-right: 10px;
+     color: #4285F4;
+     width: auto;
+}
+ .init-x {
+     background-color: #000000;
+     color: #ffffff;
+     border-color: #000000;
+     padding-left: 1em;
+     padding-right: 1em;
+}
+ .init-x:hover {
+     background-color: #404040;
+     border-color: #404040;
+     cursor: pointer;
+}
+ .init-masto {
+     background-color: #595aff;
+     border-color: #595aff;
+     color: #ffffff;
+     padding-left: 1em;
+     padding-right: 1em;
+}
+ .init-masto:hover {
+     background-color: #8080ff;
+     border-color: #8080ff;
+     cursor: pointer;
+}
+ .init-bsky {
+     background-image: linear-gradient(2.74307rad, rgb(90, 113, 250), rgb(0, 133, 255));
+     border: none;
+     color: #ffffff;
+     padding-left: 1em;
+     padding-right: 1em;
+}
+ .init-bsky:hover {
+     background-color: #0060df;
+     cursor: pointer;
+}
+ 

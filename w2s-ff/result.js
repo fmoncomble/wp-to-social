@@ -150,6 +150,98 @@ document.addEventListener("DOMContentLoaded", async function() {
 ${postUrl}`;
             const lastTweet = createTweetUnit(lastTweetText);
             tweetContainer.appendChild(lastTweet);
+    
+			// Initiate thread
+			const ouText = document.createElement('span');
+			ouText.classList.add('init-thread');
+			ouText.textContent = 'ou';
+			
+			const copyButton = document.getElementsByClassName('copy-button')[0];
+			
+			const initButton = document.createElement('button');
+			initButton.classList.add('init-thread');
+			
+			if (socialOption.value === '280') {
+				initButton.textContent = 'Initier le fil sur 𝕏';
+				initButton.classList.add('init-x');
+				copyButton.before(ouText);
+				ouText.before(initButton);
+			} else if (socialOption.value === '500') {
+				initButton.textContent = 'Initier le fil sur Mastodon 🐘';
+				initButton.classList.add('init-masto');
+				copyButton.before(ouText);
+				ouText.before(initButton);
+			} else if (socialOption.value === '300') {
+				initButton.textContent = 'Ouvrir Bluesky';
+				initButton.classList.add('init-bsky');
+				ouText.textContent = 'et';
+				copyButton.after(ouText);
+				ouText.after(initButton);
+			};
+
+			const posts = tweetContainer.querySelectorAll('.tweet-frame');
+			const firstPost = posts[0];
+			const firstPostText = firstPost.querySelector('p').textContent;
+
+			initButton.addEventListener('click', () => {
+				if (socialOption.value === '280') {
+					const tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(firstPostText)
+					browser.tabs.create({
+						url: tweetUrl
+					});
+				} else if (socialOption.value === '500') {
+					const modal = document.getElementById('modal');
+					modal.style.display = 'block';
+					const instanceLoader = document.getElementById('instanceLoader');
+					instanceLoader.addEventListener('keydown', (event) => {
+						if (event.key === 'Enter') {
+							launchMastodon();
+						};
+					});
+					const mastoButton = document.getElementById('launch-mastodon');
+					mastoButton.addEventListener('click', () => {
+						launchMastodon();
+					});
+					function launchMastodon() {
+						const mastoInstance = instanceLoader.value;
+						if (mastoInstance === '') {
+							alert('⚠️ Veuillez saisir une instance Mastodon valide');
+						} else {
+							const instUrl = 'https://' + mastoInstance
+							fetch(instUrl)
+								.then((response) => {
+									if(!response.ok) {
+										throw new Error('Mastodon instance ' + instUrl + ' not found');
+									};
+									console.log('Mastodon instance found: ', instUrl);
+									const mastoUrl = instUrl + '/share?text=' + encodeURIComponent(firstPostText);
+									browser.tabs.create({
+										url: mastoUrl
+									});
+								})
+								.catch((error) => {
+									alert('⚠️ Veuillez saisir une instance Mastodon valide');
+									console.error('Mastodon instance ' + instUrl + ' not found');
+								});
+						};
+					};
+					const closeButton = document.getElementById('close');
+					closeButton.addEventListener('click', function() {
+						modal.style.display = 'none';
+						});
+					window.onclick = function(event) {
+						if (event.target == modal) {
+							modal.style.display = 'none';
+						};
+					};
+				} else if (socialOption.value === '300') {
+					const bskyUrl = 'https://bsky.app';
+					browser.tabs.create({
+						url: bskyUrl
+					});
+				};
+			}); 
+
 
             // Hide loading spinner after extraction
             spinner.style.display = 'none';
@@ -285,7 +377,7 @@ ${postUrl}`;
             copyButton.style.padding = '4px';
             copyButton.textContent = 'Échec de la copie. Faites un clic droit sur l\'image et choisissez "Copier l\'image"';
         }
-    }
+    }   
     
     // Function to split text into tweets
     function splitIntoTweets(fullText) {
