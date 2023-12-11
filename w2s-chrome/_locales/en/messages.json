@@ -1,0 +1,93 @@
+{
+
+	"extName": {
+		"message": "WP to Social"
+	},
+
+	"description": {
+		"message": "Extract and segment a blog post to publish as a thread on social media",
+		"description": "Description of the extension"
+	},
+	
+	"popupTitle": {
+		"message": "Extract blog post"
+	},
+	
+	"retrieveMessage": {
+		"message": "Retrieving blog post…"
+	},
+	
+	"extractButton": {
+		"message": "Begin extraction"
+	},
+	
+	"errorPopup": {
+		"message": "Unsupported site"
+	},
+	
+	"socialSelect": {
+		"message": "Select social network"
+	},
+	
+	"createThread": {
+		"message": "Create thread"
+	},
+	
+	"initX": {
+		"message": "Initiate thread on 𝕏"
+	},
+	
+	"initMasto": {
+		"message": "Initiate thread on Mastodon 🐘"
+	},
+	
+	"mastoInput": {
+		"message": "Type your Mastodon instance:"
+	},
+	
+	"mastoAlert": {
+		"message": "⚠️ Please supply a valid Mastodon instance"
+	},
+	
+	"shareMasto": {
+		"message": "Share"
+	},
+	
+	"initBsky": {
+		"message": "Open Bluesky"
+	},
+	
+	"copy": {
+		"message": "Copy"
+	},
+	
+	"copied": {
+		"message": "Copied!"
+	},
+	
+	"or": {
+		"message": "or"
+	},
+	
+	"and": {
+		"message": "and"
+	},
+	
+	"errorMessage": {
+		"message": "Error while extracting"
+	},
+	
+	"copyFail": {
+		"message": "Failed to copy: right-click the image and select 'Copy image'"
+	},
+	
+	"tweetCounter": {
+		"message": "posts created"
+	},
+	
+	"lastTweetBlurb": {
+		"message": "Read this blog post here:"
+	}
+
+
+}

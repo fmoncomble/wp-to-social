@@ -1,0 +1,93 @@
+{
+
+	"extName": {
+		"message": "WP to Social"
+	},
+
+	"description": {
+		"message": "Extraire et segmenter un billet de blog pour publication en tant que fil sur les réseaux sociaux",
+		"description": "Description of the extension"
+	},
+	
+	"popupTitle": {
+		"message": "Extraire le billet"
+	},
+	
+	"retrieveMessage": {
+		"message": "Récupération du billet…"
+	},
+	
+	"extractButton": {
+		"message": "Commencer l'extraction"
+	},
+	
+	"errorPopup": {
+		"message": "Site non pris en charge"
+	},
+	
+	"socialSelect": {
+		"message": "Sélectionner le réseau social"
+	},
+	
+	"createThread": {
+		"message": "Créer le fil"
+	},
+	
+	"initX": {
+		"message": "Initier le fil sur 𝕏"
+	},
+	
+	"initMasto": {
+		"message": "Initier le fil sur Mastodon 🐘"
+	},
+	
+	"mastoInput": {
+		"message": "Saisissez votre instance Mastodon :"
+	},
+	
+	"mastoAlert": {
+		"message": "⚠️ Merci de saisir une instance Mastodon valide"
+	},
+	
+	"shareMasto": {
+		"message": "Partager"
+	},
+	
+	"initBsky": {
+		"message": "Ouvrir Bluesky"
+	},
+	
+	"copy": {
+		"message": "Copier"
+	},
+	
+	"copied": {
+		"message": "Copié !"
+	},
+	
+	"or": {
+		"message": "ou"
+	},
+	
+	"and": {
+		"message": "et"
+	},
+	
+	"errorMessage": {
+		"message": "Erreur lors de l'extraction"
+	},
+	
+	"copyFail": {
+		"message": "Échec de la copie : faites un clic droit sur l'image et sélectionnez « Copier l'image »"
+	},
+	
+	"tweetCounter": {
+		"message": "posts créés"
+	},
+	
+	"lastTweetBlurb": {
+		"message": "Retrouvez ce billet ici :"
+	}
+
+
+}
