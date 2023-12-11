@@ -10,9 +10,14 @@
 
   <body>
     <div id="content-container">
-      <h2>Extraire le billet</h2>
+      <h2 id="popupTitle">Extraire le billet</h2>
       <br>
-      <button id="extractButton">Commencer l'extraction</button>
+      <div id="button-container">
+      	<div id="loading-spinner"></div>
+      	<div id="retrieveMessage">Récupération du billet…</div>
+      	<button id="extractButton">Commencer l'extraction</button>
+        <button id="errorMessage"></button>
+      </div>
     </div>
   </body>
 

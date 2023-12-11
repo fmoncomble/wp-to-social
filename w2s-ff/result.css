@@ -41,7 +41,7 @@ body {
 }
  #createButton {
      margin-left: 10px;
-     display: none;
+     display: block;
 }
  select:hover, button:hover {
      border-color: #4285F4;
@@ -67,13 +67,15 @@ body {
 }
  .tweet-frame:hover {
      border-color: #4285F4;
+     background-color: rgba(66, 133, 244, .04);
 }
  .char-count {
      font-size: small;
      color: gray;
      margin-right: 10px;
-     display: inline;
-     vertical-align: middle;
+     float: right;
+     position: relative;
+     top: 10px;
 }
  .copy-button {
      width: 90px;
@@ -84,7 +86,7 @@ body {
      display: flex;
      align-items: center;
 }
- #post-count, #retrieveMessage {
+ #post-count {
      color: #4285F4;
      display: none;
      margin-left: 10px;

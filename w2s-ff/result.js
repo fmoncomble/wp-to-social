@@ -3,84 +3,22 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Get interface elements
     const tweetContainer = document.getElementById('content');    
     const createButton = document.getElementById("createButton");
+    createButton.textContent = browser.i18n.getMessage("createThread");
     createButton.addEventListener('click', extractPost);
-    const retrieveMessage = document.getElementById('retrieveMessage');
     const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = browser.i18n.getMessage('errorMessage');
     const spinner = document.getElementById('loading-spinner');
 
     // Get post URL
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const postUrl = urlParams.get("data");
-    console.log('Post URL: ', postUrl);
-
-    // Get REST API link
-    async function getApiLink() {
-        try {
-            retrieveMessage.style.display = 'block';
-            spinner.style.display = 'block';
-            const parser = new DOMParser();
-            const response = await fetch(postUrl);
-            if (!response.ok) {
-                errorMessage.style.display = 'block';
-                errorMessage.textContent = 'Site non accessible';
-                throw new Error('Failed to fetch post');
-            }
-            const html = await response.text();
-            const page = parser.parseFromString(html, 'text/html');
-            const head = page.querySelector('head');
-            const link = head.querySelector('link[rel="alternate"][type="application/json"]');
-            if (link) {
-                // Self-hosted blog method
-                const apiLink = link.getAttribute('href');
-                retrieveMessage.style.display = 'none';
-                spinner.style.display = 'none';
-                createButton.style.display = 'block';
-                return apiLink;
-            } else {
-                // Wordpress.com method				
-                // Get blog domain name and post slug
-                const urlObject = new URL(postUrl);
-                const blogDomain = urlObject.hostname;
-                console.log('Blog domain = ', blogDomain);
-                const path = urlObject.pathname;
-                console.log('Path: ', path);
-                const cleanPath = path.replace(/\/$/, '');
-                const pathSegments = cleanPath.split('/');
-                const postSlug = pathSegments.pop();
-                console.log('Post slug: ', postSlug);
-
-                // Build API link
-                const apiLink = `https://public-api.wordpress.com/rest/v1.1/sites/${blogDomain}/posts/slug:${postSlug}`
-                const response = await fetch(apiLink);
-                if (!response.ok) {
-                    spinner.style.display = 'none';
-                    retrieveMessage.style.display = 'none';
-                    errorMessage.style.display = 'block';
-                    errorMessage.textContent = 'Site non pris en charge';
-                    throw new Error('Not a Wordpress site');
-                }
-                retrieveMessage.style.display = 'none';
-                spinner.style.display = 'none';
-                createButton.style.display = 'block';
-                return apiLink;
-            }
-        } catch (error) {
-            console.error('Failed to fetch API link \/ Not a Wordpress site');
-            spinner.style.display = 'none';
-            retrieveMessage.style.display = 'none';
-            errorMessage.style.display = 'block';
-            errorMessage.textContent = 'Site non pris en charge';
-            return null;
-        }
-    }
-
-    // Pass REST API link
-    const apiLink = await getApiLink();
-    console.log('Post API link: ', apiLink);
+    const postApiUrl = urlParams.get("data");
+    console.log('Extracting from: ', postApiUrl);
 
     // Get social network option
     const socialOption = document.getElementById("socialOption");
+    const socialSelect = document.getElementById('socialSelect');
+    socialSelect.textContent = browser.i18n.getMessage('socialSelect');
 
     // Function to extract blog post
     async function extractPost() {
@@ -89,12 +27,10 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             let postContent;
 
-            const response = await fetch(apiLink);
+            const response = await fetch(postApiUrl);
             const postData = await response.json();
-            intPostContent = postData.content.rendered;
-            if (intPostContent) {
-                postContent = intPostContent;
-            } else if (!intPostContent) {
+            postContent = postData.content.rendered;
+            if (!postContent) {
                 postContent = postData.content;
             }
 
@@ -146,7 +82,13 @@ document.addEventListener("DOMContentLoaded", async function() {
             });
 
             // Create last tweet with blog post URL
-            const lastTweetText = `Un billet à retrouver ici :
+            let postUrl = postData.link;
+            if (!postUrl) {
+            	postUrl = postData.URL;
+            }
+            
+            let lastTweetBlurb = browser.i18n.getMessage('lastTweetBlurb');
+            const lastTweetText = `${lastTweetBlurb}
 ${postUrl}`;
             const lastTweet = createTweetUnit(lastTweetText);
             tweetContainer.appendChild(lastTweet);
@@ -154,7 +96,7 @@ ${postUrl}`;
 			// Initiate thread
 			const ouText = document.createElement('span');
 			ouText.classList.add('init-thread');
-			ouText.textContent = 'ou';
+			ouText.textContent = browser.i18n.getMessage('or');
 			
 			const copyButton = document.getElementsByClassName('copy-button')[0];
 			
@@ -162,19 +104,19 @@ ${postUrl}`;
 			initButton.classList.add('init-thread');
 			
 			if (socialOption.value === '280') {
-				initButton.textContent = 'Initier le fil sur 𝕏';
+				initButton.textContent = browser.i18n.getMessage('initX');
 				initButton.classList.add('init-x');
 				copyButton.before(ouText);
 				ouText.before(initButton);
 			} else if (socialOption.value === '500') {
-				initButton.textContent = 'Initier le fil sur Mastodon 🐘';
+				initButton.textContent = browser.i18n.getMessage('initMasto');
 				initButton.classList.add('init-masto');
 				copyButton.before(ouText);
 				ouText.before(initButton);
 			} else if (socialOption.value === '300') {
-				initButton.textContent = 'Ouvrir Bluesky';
+				initButton.textContent = browser.i18n.getMessage('initBsky');
 				initButton.classList.add('init-bsky');
-				ouText.textContent = 'et';
+				ouText.textContent = browser.i18n.getMessage('and');
 				copyButton.after(ouText);
 				ouText.after(initButton);
 			};
@@ -192,6 +134,8 @@ ${postUrl}`;
 				} else if (socialOption.value === '500') {
 					const modal = document.getElementById('modal');
 					modal.style.display = 'block';
+					const mastoInput = document.getElementById('mastoInput');
+					mastoInput.textContent = browser.i18n.getMessage('mastoInput');
 					const instanceLoader = document.getElementById('instanceLoader');
 					instanceLoader.addEventListener('keydown', (event) => {
 						if (event.key === 'Enter') {
@@ -199,13 +143,15 @@ ${postUrl}`;
 						};
 					});
 					const mastoButton = document.getElementById('launch-mastodon');
+					mastoButton.textContent = browser.i18n.getMessage('shareMasto');
 					mastoButton.addEventListener('click', () => {
 						launchMastodon();
 					});
 					function launchMastodon() {
 						const mastoInstance = instanceLoader.value;
+						let mastoAlert = browser.i18n.getMessage('mastoAlert');
 						if (mastoInstance === '') {
-							alert('⚠️ Veuillez saisir une instance Mastodon valide');
+							alert(mastoAlert);
 						} else {
 							const instUrl = 'https://' + mastoInstance
 							fetch(instUrl)
@@ -220,7 +166,7 @@ ${postUrl}`;
 									});
 								})
 								.catch((error) => {
-									alert('⚠️ Veuillez saisir une instance Mastodon valide');
+									alert(mastoAlert);
 									console.error('Mastodon instance ' + instUrl + ' not found');
 								});
 						};
@@ -251,16 +197,17 @@ ${postUrl}`;
             console.log('Number of posts generated: ', tweetUnits.length);
             const tweetCount = tweetUnits.length;
             const tweetCounter = document.getElementById('post-count');
+            let tweetCounterText = browser.i18n.getMessage('tweetCounter');
             tweetCounter.style.display = 'block';
-            tweetCounter.textContent = `${tweetCount} posts créés`;
+            tweetCounter.textContent = `${tweetCount} ${tweetCounterText}`;
 
         } catch (error) {
             console.error(error);
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'none';
-            createButton.style.display = 'block';
+            createButton.style.display = 'none';
             errorMessage.style.display = 'block';
-            errorMessage.textContent = 'Échec de l\'extraction';
+            errorMessage.textContent = browser.i18n.getMessage('errorMessage');
         }
     };
 
@@ -272,7 +219,16 @@ ${postUrl}`;
 
         const contentElement = isImage ? createImageElement(content) : createTextElement(content);
         tweetUnit.appendChild(contentElement);
-		
+				
+		// Add copy button
+        const copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.textContent = browser.i18n.getMessage('copy');
+        copyButton.addEventListener('click', () => {
+            copyToClipboard(content, copyButton)
+        });
+        tweetUnit.appendChild(copyButton);
+        
 		// Add character count
         const characterCount = document.createElement('span');
         characterCount.classList.add('char-count');
@@ -291,15 +247,6 @@ ${postUrl}`;
 	        characterCount.textContent = `${content.length}\/${socialOption.value}`;
     	    tweetUnit.appendChild(characterCount);
     	};
-		
-		// Add copy button
-        const copyButton = document.createElement('button');
-        copyButton.classList.add('copy-button');
-        copyButton.textContent = 'Copier';
-        copyButton.addEventListener('click', () => {
-            copyToClipboard(content, copyButton)
-        });
-        tweetUnit.appendChild(copyButton);
 
         return tweetUnit;
     }
@@ -332,7 +279,7 @@ ${postUrl}`;
         copyButton.style.backgroundColor = '#e6ffe6';
         copyButton.style.color = '#006600';
         copyButton.style.borderColor = '#006600';
-        copyButton.textContent = 'Copié !';
+        copyButton.textContent = browser.i18n.getMessage('copied');
     }
 
     // Function to copy image to clipboard
@@ -375,7 +322,7 @@ ${postUrl}`;
             copyButton.style.height = 'auto';
             copyButton.style.width = 'auto';
             copyButton.style.padding = '4px';
-            copyButton.textContent = 'Échec de la copie. Faites un clic droit sur l\'image et choisissez "Copier l\'image"';
+            copyButton.textContent = browser.i18n.getMessage('copyFail');
         }
     }   
     

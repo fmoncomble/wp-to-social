@@ -24,10 +24,10 @@
 </linearGradient>
 </defs>
 </svg> </div>
-            <p>Saisissez votre instance :</p>
+            <p id="mastoInput">Saisissez votre instance :</p>
             <p>
                 <span>https://</span>
-                <input type="text" placeholder="mastodon.exemple" id="instanceLoader" name="instanceLoader" />
+                <input type="text" placeholder="mastodon.instance" id="instanceLoader" name="instanceLoader" />
                 <button id="launch-mastodon">Partager</button>
             </p>
         </div>
@@ -37,7 +37,7 @@
             <legend>
             	<img src='icons/icon-48.png'/>
             </legend>
-            <span>Sélectionner le réseau social :</span>
+            <span id="socialSelect">Sélectionner le réseau social :</span>
             </br></br>
             <div id="button-container">
                 <select id="socialOption">
@@ -47,7 +47,7 @@
 					</select>
                 <button id="createButton">Créer le fil</button>
                 <div id="loading-spinner"></div>
-                <div id="retrieveMessage">Récupération du billet…</div>
+<!--                 <div id="retrieveMessage">Récupération du billet…</div> -->
                 <button id="errorMessage"></button>
                 <div id="post-count"></div>
             </div>

@@ -14,6 +14,7 @@ body {
 }
 
 button {
+    display: none;
     border: 1px solid;
     border-color: #cee0fd;
     border-radius: 4px;
@@ -24,6 +25,51 @@ button {
     text-align: center;
     font-weight: 500;
     font-family: system-ui, sans-serif;
+}
+
+#button-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+ #loading-spinner {
+     border: 4px solid #cee0fd;
+     border-left: 4px solid #4285F4;
+     border-radius: 50%;
+     width: 12px;
+     height: 12px;
+     animation: spin 1s linear infinite;
+}
+
+ @keyframes spin {
+     0% {
+         transform: rotate(0deg);
+    }
+     100% {
+         transform: rotate(360deg);
+    }
+}
+
+#retrieveMessage {
+     color: #4285F4;
+     margin-left: 10px;
+     font-size: small;
+}
+
+ #errorMessage {
+     border: 1px solid;
+     border-color: #e60000;
+     border-radius: 4px;
+     height: 32px;
+     width: auto;
+     color: #e60000;
+     background-color: #ffe6e6;
+     text-align: center;
+     font-weight: 500;
+     display: none;
+     margin-left: 10px;
+     font-family: system-ui, sans-serif;
 }
 
 button:hover {
