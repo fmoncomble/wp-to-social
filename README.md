@@ -1,13 +1,25 @@
 # ![icon-48](https://github.com/fmoncomble/wp-to-social/assets/59739627/de76d460-0973-4e14-8e47-cf291d6c9752) WP to Social, une extension pour Firefox/Chrome/Edge
 Extraire et segmenter le texte d'un billet WordPress pour le poster sur X/Mastodon/Bsky
 
+## Firefox
 [![Firefox add-on](https://github.com/fmoncomble/wp-to-social/assets/59739627/c1aa3fde-018d-4efd-920d-109349cbc98b)](https://github.com/fmoncomble/wp-to-social/releases/latest/download/wp-to-social.xpi)
+
+## Chrome/Edge
+- En attendant la disponibilité sur le Chrome Webstore, ![télécharger le fichier ZIP](https://github.com/fmoncomble/wp-to-social/releases/latest/download/wp-to-social-chrome.zip).
+- Décompresser le fichier ;
+- Dans la barre d'adresse de Chrome/Edge, taper `chrome://extensions` ou `edge://extensions` puis appuyer sur la touche `Entrée`;
+- Activer le mode développeur (en haut à droite) ;
+- Cliquer sur « Charger l'extension non empaquetée » (en haut à gauche) et sélectionner le dossier décompressé.
+
+## Mode d'emploi
 - Penser à épingler l'extension dans la barre d'outils.
 - Ouvrir un billet de blog Wordpress (extension compatible avec les blogs auto-hébergés et sous wordpress.com).
-- Cliquer sur l'icône ![icon-32](https://github.com/fmoncomble/wp-to-social/assets/59739627/9bb45fec-76ed-4a9a-8799-b49bbc7f9a49) dans la barre d'outils puis sur "Commencer l'extraction".
-- Sélectionner le réseau social de destination (X/Twitter, Mastodon ou Bluesky) et cliquer sur "Créer le fil".
-- Cliquer sur "Initier le fil", ou "Copier" sous chaque post pour l'enregistrer dans le presse-papier et le coller dans le réseau social de destination.
-  - N.B. Les images sont copiées en tant que telles et peuvent être collées seules ou en complément de texte.
+- Cliquer sur l'icône ![icon-32](https://github.com/fmoncomble/wp-to-social/assets/59739627/9bb45fec-76ed-4a9a-8799-b49bbc7f9a49) dans la barre d'outils puis sur `Commencer l'extraction`.
+- Sélectionner le réseau social de destination (X/Twitter, Mastodon ou Bluesky) et cliquer sur `Créer le fil`.
+- Chaque post peut être modifié en cliquant sur le bouton `Modifier` ou directement dans le texte.
+- Cliquer sur `Copier` sous chaque post pour l'enregistrer dans le presse-papier et le coller plus tard.
+  - Le bouton `Initier le fil` permet d'ouvrir le premier post dans le réseau social de destination (il ne sera pas publié automatiquement).
+  - N.B. Les images sont copiées en tant que telles et peuvent être collées seules ou en complément du texte.
 
 ## Captures d'écran :
 - Fenêtre pop-up :  
