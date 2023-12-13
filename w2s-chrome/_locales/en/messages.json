@@ -65,6 +65,18 @@
 		"message": "Copied!"
 	},
 	
+	"edit": {
+		"message": "Edit"
+	},
+	
+	"editInst": {
+		"message": "Press Enter to save, Shift+Enter for a line break, Esc to cancel"
+	},
+	
+	"validate": {
+		"message": "Save"
+	},
+	
 	"or": {
 		"message": "or"
 	},

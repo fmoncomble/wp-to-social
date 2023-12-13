@@ -72,15 +72,29 @@ body {
  .char-count {
      font-size: small;
      color: gray;
+     margin-left: 10px;
      margin-right: 10px;
-     float: right;
-     position: relative;
-     top: 10px;
 }
  .copy-button {
      width: 90px;
      text-align: center;
      margin-right: 10px;
+}
+.edit-button {
+	font-size: x-small;
+	width: auto;
+	height: auto;
+	color: #666666;
+	border: solid 1px #666666;
+	border-radius: 4px;
+	padding: 4px;
+	outline: none;
+	background-color: rgba(242, 242, 242, 0.4);
+	cursor: pointer;
+}
+.edit-button:hover {
+	color: #999999;
+	border-color: #999999;
 }
  #button-container {
      display: flex;
@@ -217,5 +231,24 @@ body {
  .init-bsky:hover {
      background-color: #0060df;
      cursor: pointer;
+}
+
+textarea {
+	border: solid 3px #f2f2f2;
+	font-family: system-ui, sans-serif;
+}
+
+.edit-inst {
+	font: x-small;
+	color: #4285F4;
+}
+
+.clearfix {
+	float: right;
+	content: '';
+	display: table;
+	clear: both;
+	position: relative;
+	top: 5px;
 }
  

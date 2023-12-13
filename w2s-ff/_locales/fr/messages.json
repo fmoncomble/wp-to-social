@@ -65,6 +65,18 @@
 		"message": "Copié !"
 	},
 	
+	"edit": {
+		"message": "Modifier"
+	},
+	
+	"editInst": {
+		"message": "Appuyez sur Entrée pour valider, Maj+Entrée pour passer à la ligne, Echap pour annuler"
+	},
+	
+	"validate": {
+		"message": "Valider"
+	},
+	
 	"or": {
 		"message": "ou"
 	},
