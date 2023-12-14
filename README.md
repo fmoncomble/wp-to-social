@@ -5,11 +5,7 @@ Extraire et segmenter le texte d'un billet WordPress pour le poster sur X/Mastod
 [![Firefox add-on](https://github.com/fmoncomble/wp-to-social/assets/59739627/c1aa3fde-018d-4efd-920d-109349cbc98b)](https://github.com/fmoncomble/wp-to-social/releases/latest/download/wp-to-social.xpi)
 
 ## Chrome/Edge
-- En attendant la disponibilité sur le Chrome Webstore, ![télécharger le fichier ZIP](https://github.com/fmoncomble/wp-to-social/releases/latest/download/wp-to-social-chrome.zip).
-- Décompresser le fichier ;
-- Dans la barre d'adresse de Chrome/Edge, taper `chrome://extensions` ou `edge://extensions` puis appuyer sur la touche `Entrée`;
-- Activer le mode développeur (en haut à droite) ;
-- Cliquer sur « Charger l'extension non empaquetée » (en haut à gauche) et sélectionner le dossier décompressé.
+[![available-chrome-web-store4321](https://github.com/fmoncomble/wp-to-social/assets/59739627/25bb74e9-87b7-4bc0-9947-ab658952810b)](https://chromewebstore.google.com/detail/wp-to-social/kmeldehafeiplcbbjamekfpeaggdchno)
 
 ## Mode d'emploi
 - Penser à épingler l'extension dans la barre d'outils.
