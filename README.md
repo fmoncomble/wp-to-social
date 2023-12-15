@@ -18,7 +18,7 @@ Extract and segment the content of a Wordpress blog post for publication on 𝕏
   - Le bouton `Initier le fil` permet d'ouvrir le premier post dans le réseau social de destination (il ne sera pas publié automatiquement).
   - N.B. Les images sont copiées en tant que telles et peuvent être collées seules ou en complément du texte.
 
-## Usage
+## How-to
 - Remember to pin the add-on to the toolbar.
 - Open a Wordpress blog post (the add-on is compatible both with self-hosted and wordpress.com blogs, regardless of domain).
 - Click the icon ![icon-32](https://github.com/fmoncomble/wp-to-social/assets/59739627/9bb45fec-76ed-4a9a-8799-b49bbc7f9a49) in the toolbar, then `Begin extraction`.
@@ -28,7 +28,7 @@ Extract and segment the content of a Wordpress blog post for publication on 𝕏
   - Alternatively, click the `Initiate thread` button to open the first post in your chosen social network (it will not be published automatically).
   - N.B. Images are copied as is so they can be pasted on their own or along with text.
 
-## Captures d'écran :
+## Captures d'écran
 
   <img width="1262" alt="Screenshot 2023-12-15 at 12 55 45" src="https://github.com/fmoncomble/wp-to-social/assets/59739627/de841058-a4cb-4c3f-b352-3f8a837caf33">  
   <img width="1262" alt="Screenshot 2023-12-15 at 12 56 05" src="https://github.com/fmoncomble/wp-to-social/assets/59739627/bd2f98a8-d0b4-4da6-9c18-ff989328289c">  
