@@ -337,6 +337,9 @@ ${postUrl}`;
 					editButton.removeAttribute('style');
 					editInstructions.remove();
 					resetCopyButton(copyButton);
+					initTools.forEach(initTool => {
+						initTool.removeAttribute('style');
+					});
 					editZone.replaceWith(contentElement);
 					updateCharacterCount(originalContent);
 			}

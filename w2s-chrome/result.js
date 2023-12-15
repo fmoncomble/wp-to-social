@@ -338,6 +338,9 @@ ${postUrl}`;
 					editZone.replaceWith(contentElement);
 					updateCharacterCount(originalContent);
 					resetCopyButton(copyButton);
+					initTools.forEach(initTool => {
+						initTool.removeAttribute('style');
+					});
 			}
 						
 			saveButton.addEventListener('click', (event) => updateTweetContent());
