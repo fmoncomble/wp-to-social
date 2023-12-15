@@ -234,6 +234,10 @@ ${postUrl}`;
     // Function to handle editing a tweet
 	function editTweet(editButton, saveButton, copyButton) {
 		console.log('editTweet function triggered');
+		const initTools = copyButton.parentNode.querySelectorAll('.init-thread');
+		initTools.forEach(initTool => {
+			initTool.style.display = 'none';
+		});
 		const contentElement = copyButton.parentNode.querySelector('p');
 		let editInst = browser.i18n.getMessage('editInst');
 		const editInstructions = document.createElement('p');
@@ -307,6 +311,9 @@ ${postUrl}`;
 				editButton.removeAttribute('style');
 				updateCharacterCount(editedContent);
 				editInstructions.remove();
+				initTools.forEach(initTool => {
+					initTool.style.display = 'none';
+				});
 				resetCopyButton(copyButton);
 			}
 			
