@@ -238,6 +238,7 @@ ${postUrl}`;
 		initTools.forEach(initTool => {
 			initTool.style.display = 'none';
 		});
+		copyButton.style.display = 'none';
 		const contentElement = copyButton.parentNode.querySelector('p');
 		let editInst = browser.i18n.getMessage('editInst');
 		const editInstructions = document.createElement('p');
@@ -312,7 +313,7 @@ ${postUrl}`;
 				updateCharacterCount(editedContent);
 				editInstructions.remove();
 				initTools.forEach(initTool => {
-					initTool.style.display = 'none';
+					initTool.removeAttribute('style');
 				});
 				resetCopyButton(copyButton);
 			}
