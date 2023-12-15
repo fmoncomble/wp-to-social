@@ -18,16 +18,13 @@ Extraire et segmenter le texte d'un billet WordPress pour le poster sur X/Mastod
   - N.B. Les images sont copiées en tant que telles et peuvent être collées seules ou en complément du texte.
 
 ## Captures d'écran :
-- Fenêtre pop-up :  
-  ![Screenshot 2023-12-04 at 13 58 40](https://github.com/fmoncomble/wp-to-social/assets/59739627/8e12efcd-f969-4aa9-b397-b36a23ad6b01)
-  
-- Choix du réseau social :  
-  ![Screenshot 2023-12-04 at 13 58 58](https://github.com/fmoncomble/wp-to-social/assets/59739627/f7ef8bd1-79de-47e8-802e-1a9225c469fd)
-    
-- Affichage et copie des posts segmentés :  
-  <img width="534" alt="Screenshot 2023-12-11 at 19 49 50" src="https://github.com/fmoncomble/wp-to-social/assets/59739627/92c6c547-e44c-4d33-86e4-5f1dfc83072a">
 
-- Exemple de publication :  
-  ![Screenshot 2023-12-04 at 14 14 42](https://github.com/fmoncomble/wp-to-social/assets/59739627/0425db21-0df1-4e6e-a4c6-6895a55fde88)
+  <img width="1262" alt="Screenshot 2023-12-15 at 12 55 45" src="https://github.com/fmoncomble/wp-to-social/assets/59739627/de841058-a4cb-4c3f-b352-3f8a837caf33">  
+  <img width="1262" alt="Screenshot 2023-12-15 at 12 56 05" src="https://github.com/fmoncomble/wp-to-social/assets/59739627/bd2f98a8-d0b4-4da6-9c18-ff989328289c">  
+  <img width="1262" alt="Screenshot 2023-12-15 at 12 59 37" src="https://github.com/fmoncomble/wp-to-social/assets/59739627/288f1a06-184e-4465-8634-9a1289af99b0">  
+  <img width="1262" alt="Screenshot 2023-12-15 at 12 59 51" src="https://github.com/fmoncomble/wp-to-social/assets/59739627/119264b3-72b7-42a4-aa94-4761ea091677">
+
+
+
 
 
