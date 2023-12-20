@@ -1,5 +1,6 @@
 html {
-	border: none;
+	background-color: white;
+    border: none;
 	border-radius: 10px;
 	width: 236px;
 }
@@ -8,7 +9,7 @@ body {
     background-color: white;
     text-align: center;
     font-family: system-ui, sans-serif;
-    width: 236px;
+   	width: 236px;
     height: 150px;
     padding: 10px;
 }
@@ -25,6 +26,7 @@ button {
     text-align: center;
     font-weight: 500;
     font-family: system-ui, sans-serif;
+    cursor: pointer;
 }
 
 #button-container {
@@ -77,8 +79,8 @@ button:hover {
 	background-color: rgba(33, 150, 243, .04);
 }
 
-button:active {
-	border: 2px solid;
+button:focus {
+	border-color: #4285F4;
+	background-color: rgba(33, 150, 243, .04);
 }
-
 

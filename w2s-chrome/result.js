@@ -8,12 +8,12 @@ document.addEventListener("DOMContentLoaded", async function() {
     const errorMessage = document.getElementById('errorMessage');
     errorMessage.textContent = chrome.i18n.getMessage('errorMessage');
     const spinner = document.getElementById('loading-spinner');
+	const tweetCounter = document.getElementById('post-count');
     
     // Get Mastodon interface elements
 	const modal = document.getElementById('modal');
 	const mastoInput = document.getElementById('mastoInput');
 	mastoInput.textContent = chrome.i18n.getMessage('mastoInput');
-	
     const instanceLoader = document.getElementById('instanceLoader');
 	instanceLoader.addEventListener('keydown', (event) => {
 		if (event.key === 'Enter') {
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     async function extractPost() {
         try {
             spinner.style.display = 'block';
+            tweetCounter.style.display = 'none';
 
             let postContent;
 
@@ -110,7 +111,7 @@ ${postUrl}`;
             const lastTweet = createTweetUnit(lastTweetText);
             tweetContainer.appendChild(lastTweet);
     
-			// Add thread initiation button to first post
+			// Add thread initiation button
 			const ouText = document.createElement('span');
 			ouText.classList.add('init-thread');
 			ouText.textContent = chrome.i18n.getMessage('or');
@@ -119,28 +120,42 @@ ${postUrl}`;
 			
 			const initButton = document.createElement('button');
 			initButton.classList.add('init-thread');
+			const initText = document.createElement('text');
+			initText.style.verticalAlign = 'middle';
+			initButton.appendChild(initText);
+			const initIcon = document.createElement('img');
+			initIcon.height = '20';
+			initIcon.style.verticalAlign = 'middle';
 			
-			if (socialOption.value === '280') {
-				initButton.textContent = chrome.i18n.getMessage('initX');
+			if (socialOption.selectedOptions[0].label === '𝕏 / Twitter') {
+				initText.textContent = chrome.i18n.getMessage('initX');
 				initButton.classList.add('init-x');
 				copyButton.before(ouText);
 				ouText.before(initButton);
-			} else if (socialOption.value === '500') {
-				initButton.textContent = chrome.i18n.getMessage('initMasto');
+			} else if (socialOption.selectedOptions[0].label === 'Mastodon') {
+				const mastoIcon = document.createElement('img');
+				initIcon.src = 'icons/masto-logo-white.svg';
+				initText.before(initIcon);
+				initText.textContent = chrome.i18n.getMessage('initMasto');
 				initButton.classList.add('init-masto');
 				copyButton.before(ouText);
 				ouText.before(initButton);
-			} else if (socialOption.value === '300') {
-				initButton.textContent = chrome.i18n.getMessage('initBsky');
+			} else if (socialOption.selectedOptions[0].label === 'Bluesky') {
+				initText.textContent = chrome.i18n.getMessage('initBsky');
 				initButton.classList.add('init-bsky');
 				ouText.textContent = chrome.i18n.getMessage('and');
 				copyButton.after(ouText);
 				ouText.after(initButton);
+			} else if (socialOption.selectedOptions[0].label === 'Threads') {
+				const threadsIcon = document.createElement('img');
+				initIcon.src = 'icons/threads-icon.svg';
+				initText.before(initIcon);
+				initText.textContent = chrome.i18n.getMessage('initThreads');
+				initButton.classList.add('init-threads');
+				ouText.textContent = chrome.i18n.getMessage('and');
+				copyButton.after(ouText);
+				ouText.after(initButton);
 			};
-// 
-// 			const posts = tweetContainer.querySelectorAll('.tweet-frame');
-// 			const firstPost = posts[0];
-// 			const firstPostText = firstPost.querySelector('p').textContent;
 
 			initButton.addEventListener('click', () => {
 				initiateThread(initButton)
@@ -153,7 +168,6 @@ ${postUrl}`;
             const tweetUnits = tweetContainer.querySelectorAll('.tweet-frame');
             console.log('Number of posts generated: ', tweetUnits.length);
             const tweetCount = tweetUnits.length;
-            const tweetCounter = document.getElementById('post-count');
             let tweetCounterText = chrome.i18n.getMessage('tweetCounter');
             tweetCounter.style.display = 'block';
             tweetCounter.textContent = `${tweetCount} ${tweetCounterText}`;
@@ -176,36 +190,47 @@ ${postUrl}`;
 
         const contentElement = isImage ? createImageElement(content) : createTextElement(content);
         tweetUnit.appendChild(contentElement);
+        
+        // Add footer container
+        const tweetFooter = document.createElement('div');
+        tweetFooter.classList.add('tweet-footer');
+        tweetUnit.appendChild(tweetFooter);
 				
 		// Add copy button
         const copyButton = document.createElement('button');
         copyButton.classList.add('copy-button');
         copyButton.textContent = chrome.i18n.getMessage('copy');
         copyButton.addEventListener('click', () => {
-            copyToClipboard(content, copyButton, tweetUnit)
+            copyToClipboard(content, copyButton, tweetUnit, tweetFooter)
         });
-        tweetUnit.appendChild(copyButton); 
+        tweetFooter.appendChild(copyButton); 
         
 		const appendixContainer = document.createElement('div');
 		appendixContainer.classList.add('clearfix');
-		tweetUnit.appendChild(appendixContainer);
+		tweetFooter.appendChild(appendixContainer);
 		       
 		// Add edit/save buttons
 		if (!isImage) {
 			const editButton = document.createElement('button');
 			const saveButton = document.createElement('button');
+			const cancelButton = document.createElement('button');
 			editButton.classList.add('edit-button');
 			saveButton.classList.add('edit-button');
+			cancelButton.classList.add('edit-button');
 			editButton.textContent = chrome.i18n.getMessage('edit');
 			saveButton.textContent = chrome.i18n.getMessage('validate');
+			cancelButton.textContent = chrome.i18n.getMessage('cancel');
+			cancelButton.classList.add('cancel-button');
 			saveButton.style.display = 'none';
+			cancelButton.style.display = 'none';
 			editButton.addEventListener('click', () => {
-				editTweet(editButton, saveButton, copyButton);
+				editTweet(editButton, saveButton, copyButton, cancelButton, tweetFooter);
 			});
 			appendixContainer.appendChild(editButton);
+			appendixContainer.appendChild(cancelButton);
 			appendixContainer.appendChild(saveButton);
 			contentElement.addEventListener('click', () => {
-				editTweet(editButton, saveButton, copyButton);
+				editTweet(editButton, saveButton, copyButton, cancelButton, tweetFooter);
 			});
 		}
         
@@ -232,14 +257,14 @@ ${postUrl}`;
     }
     
     // Function to handle editing a tweet
-	function editTweet(editButton, saveButton, copyButton) {
+	function editTweet(editButton, saveButton, copyButton, cancelButton, tweetFooter) {
 		console.log('editTweet function triggered');
-		const initTools = copyButton.parentNode.querySelectorAll('.init-thread');
+		const initTools = tweetFooter.querySelectorAll('.init-thread');
 		initTools.forEach(initTool => {
 			initTool.style.display = 'none';
 		});
 		copyButton.style.display = 'none';
-		const contentElement = copyButton.parentNode.querySelector('p');
+		const contentElement = tweetFooter.parentNode.querySelector('p');
 		let editInst = chrome.i18n.getMessage('editInst');
 		const editInstructions = document.createElement('p');
 		editInstructions.classList.add('edit-inst');
@@ -250,18 +275,20 @@ ${postUrl}`;
 		const editZone = document.createElement('textarea');
 		editZone.style.height = '200px';
 		editZone.style.width = contentStyle.width;
+		editZone.style.boxSizing = 'border-box';
+		editZone.style.marginBottom = '4px';
 		editZone.value = originalContent;
 		contentElement.replaceWith(editZone);
 		editZone.focus();
 		editButton.style.display = 'none';
 		saveButton.removeAttribute('style');
+		cancelButton.removeAttribute('style');
 		let editedContent = editZone.value;
 		
 		if (editedContent !== null) {
 		
 			// Update character count
 			function updateCharacterCount(tweetContent) {
-// 				editedContent = editZone.value;
 				const characterCount = editButton.parentNode.querySelector('.char-count');
 				if (characterCount) {
 					const containsUrl = containsURL(tweetContent);
@@ -305,61 +332,109 @@ ${postUrl}`;
 			function updateTweetContent () {
 				editedContent = editZone.value;
 				contentElement.textContent = editedContent;
+				editZone.blur();
 				editZone.replaceWith(contentElement);
 				editedTweet = contentElement.textContent;
+				cancelButton.style.display = 'none';
 				saveButton.style.display = 'none';
 				editButton.removeAttribute('style');
 				updateCharacterCount(editedContent);
 				editInstructions.remove();
 				initTools.forEach(initTool => {
-					initTool.removeAttribute('style')
+					initTool.removeAttribute('style');
 				});
 				resetCopyButton(copyButton);
 			}
 			
-			editZone.addEventListener('keydown', (event) => {
+			window.addEventListener('keydown', doEditOrNot);
+			
+			function doEditOrNot(event) {
 				if (event.key === 'Enter' && !event.shiftKey) {
 					event.preventDefault();
 					updateTweetContent();
-				}
-			});
-			
-			window.addEventListener('keydown', (event) => {
-				if (event.key === 'Escape') {
+				} else if (event.key === 'Escape') {
 					cancelEdit();
 				}
-			});
+			}
 			
-			function cancelEdit () {		
+			cancelButton.addEventListener('click', cancelEdit);
+			
+			function cancelEdit () {
+				editZone.blur();
+				window.removeEventListener('keydown', doEditOrNot);
+				const cancelDialog = document.getElementById('cancel-dialog');
+				const cancelText = document.getElementById('cancel-text');
+				cancelText.textContent = chrome.i18n.getMessage('cancelText');
+				const noButton = document.getElementById('no-button');
+				noButton.textContent = chrome.i18n.getMessage('noText');
+				const yesButton = document.getElementById('yes-button');
+				yesButton.textContent = chrome.i18n.getMessage('yesText');
+				if (editZone.value !== originalContent) {
+					cancelDialog.style.display = 'block';
+					noButton.onclick = function () {
+						cancelCancel();
+					}
+					cancelDialog.onclick = function (event) {
+						if (event.target == cancelDialog) {
+							cancelCancel();
+						}
+					}
+					yesButton.onclick = confirmCancel;
+					window.addEventListener('keydown', doCancelOrNot);
+					function doCancelOrNot(event) {
+						if (event.key === 'Enter') {
+							confirmCancel();
+						} else if (event.key === 'Escape') {
+							cancelCancel();
+						}
+					}
+				} else {
+					confirmCancel();
+				}
+				
+				function cancelCancel () {
+					cancelDialog.style.display = 'none';
+					editZone.focus();
+					window.removeEventListener('keydown', doCancelOrNot);
+					window.addEventListener('keydown', doEditOrNot);
+				}
+				
+				function confirmCancel () {
 					console.log('Cancel edit function triggered');
+					window.removeEventListener('keydown', doCancelOrNot);
+					editZone.blur();
+					cancelDialog.style.display = 'none';
 					saveButton.style.display = 'none';
+					cancelButton.style.display = 'none';
 					editButton.removeAttribute('style');
 					editInstructions.remove();
-					editZone.replaceWith(contentElement);
-					updateCharacterCount(originalContent);
-					resetCopyButton(copyButton);
+					copyButton.style.display = 'inline-block';
 					initTools.forEach(initTool => {
 						initTool.removeAttribute('style');
 					});
+					editZone.replaceWith(contentElement);
+					updateCharacterCount(originalContent);
+				}
 			}
-						
+			
 			saveButton.addEventListener('click', (event) => updateTweetContent());
 			
 			updateCharacterCount(editedContent);
 			
 		}
 	}
-	
+		
 	// Function to initiate the thread
 	function initiateThread (initButton) {
-		const firstPost = initButton.parentNode.querySelector('p');
-		const firstPostText = firstPost.textContent;
-		if (socialOption.value === '280') {
+		const posts = tweetContainer.querySelectorAll('.tweet-frame');
+		const firstPost = posts[0];
+		const firstPostText = firstPost.querySelector('p').textContent;
+		if (socialOption.selectedOptions[0].label === '𝕏 / Twitter') {
 			const tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(firstPostText)
 			chrome.tabs.create({
 				url: tweetUrl
 			});
-		} else if (socialOption.value === '500') {
+		} else if (socialOption.selectedOptions[0].label === 'Mastodon') {
 			modal.style.display = 'block';
 			instanceLoader.focus();
 			const closeButton = document.getElementById('close');
@@ -376,10 +451,15 @@ ${postUrl}`;
 					modal.style.display = 'none';
 				};
 			});
-		} else if (socialOption.value === '300') {
+		} else if (socialOption.selectedOptions[0].label === 'Bluesky') {
 			const bskyUrl = 'https://bsky.app';
 			chrome.tabs.create({
 				url: bskyUrl
+			});
+		} else if (socialOption.selectedOptions[0].label === 'Threads') {
+			const threadsUrl = 'https://threads.net';
+			chrome.tabs.create({
+				url: threadsUrl
 			});
 		};
 	};
@@ -437,9 +517,9 @@ ${postUrl}`;
 	}
 
     //Function to copy text to clipboard
-    function copyToClipboard(text, copyButton, tweetUnit) {
+    function copyToClipboard(text, copyButton, tweetUnit, tweetFooter) {
         const textarea = document.createElement('textarea');
-        const contentElement = copyButton.parentNode.querySelector('p');
+        const contentElement = tweetFooter.parentNode.querySelector('p');
         textarea.value = contentElement.textContent;
         document.body.appendChild(textarea);
         textarea.select();
@@ -449,9 +529,6 @@ ${postUrl}`;
         copyButton.style.color = '#006600';
         copyButton.style.borderColor = '#006600';
         copyButton.textContent = chrome.i18n.getMessage('copied');
-        setTimeout(function () {
-        	resetCopyButton(copyButton);
-        	}, 2000);
     }
 
     // Function to copy image to clipboard
@@ -488,9 +565,6 @@ ${postUrl}`;
 			copyButton.style.color = '#006600';
 			copyButton.style.borderColor = '#006600';
 			copyButton.textContent = chrome.i18n.getMessage('copied');
-			setTimeout(function () {
-				resetCopyButton(copyButton);
-				}, 2000);
         } catch (error) {
             console.error('Error copying image to clipboard: ', error);
             copyButton.style.backgroundColor = '#ffe6e6';

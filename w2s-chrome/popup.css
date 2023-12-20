@@ -25,6 +25,7 @@ button {
     text-align: center;
     font-weight: 500;
     font-family: system-ui, sans-serif;
+    cursor: pointer;
 }
 
 #button-container {
@@ -77,8 +78,8 @@ button:hover {
 	background-color: rgba(33, 150, 243, .04);
 }
 
-button:active {
-	border: 2px solid;
+button:focus {
+	border-color: #4285F4;
+	background-color: rgba(33, 150, 243, .04);
 }
-
 

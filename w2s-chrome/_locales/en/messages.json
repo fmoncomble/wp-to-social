@@ -38,7 +38,7 @@
 	},
 	
 	"initMasto": {
-		"message": "Initiate thread on Mastodon 🐘"
+		"message": "\u00A0 Initiate thread on Mastodon"
 	},
 	
 	"mastoInput": {
@@ -55,6 +55,10 @@
 	
 	"initBsky": {
 		"message": "Open Bluesky"
+	},
+	
+	"initThreads": {
+		"message": "\u00A0 Open Threads"
 	},
 	
 	"copy": {
@@ -75,6 +79,10 @@
 	
 	"validate": {
 		"message": "Save"
+	},
+	
+	"cancel": {
+		"message": "Cancel"
 	},
 	
 	"or": {
@@ -99,6 +107,18 @@
 	
 	"lastTweetBlurb": {
 		"message": "Read this blog post here:"
+	},
+	
+	"cancelText": {
+		"message": "Do you really want to cancel your edits?"
+	},
+	
+	"noText": {
+		"message": "No"
+	},
+	
+	"yesText": {
+		"message": "Yes"
 	}
 
 

@@ -38,7 +38,7 @@
 	},
 	
 	"initMasto": {
-		"message": "Initier le fil sur Mastodon 🐘"
+		"message": "\u00A0 Initier le fil sur Mastodon"
 	},
 	
 	"mastoInput": {
@@ -55,6 +55,10 @@
 	
 	"initBsky": {
 		"message": "Ouvrir Bluesky"
+	},
+	
+	"initThreads": {
+		"message": "\u00A0 Ouvrir Threads"
 	},
 	
 	"copy": {
@@ -75,6 +79,10 @@
 	
 	"validate": {
 		"message": "Valider"
+	},
+	
+	"cancel": {
+		"message": "Annuler"
 	},
 	
 	"or": {
@@ -99,6 +107,18 @@
 	
 	"lastTweetBlurb": {
 		"message": "Retrouvez ce billet ici :"
+	},
+	
+	"cancelText": {
+		"message": "Voulez-vous vraiment annuler vos modifications ?"
+	},
+	
+	"noText": {
+		"message": "Non"
+	},
+	
+	"yesText": {
+		"message": "Oui"
 	}
 
 

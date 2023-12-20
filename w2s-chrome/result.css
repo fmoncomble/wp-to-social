@@ -37,18 +37,20 @@ body {
      background-color: white;
      text-align: center;
      font-weight: 500;
-     font-family: system-ui, sans-serif;
+     font-family: ui-sans-serif, system-ui, sans-serif;
 }
+
+button {
+	cursor: pointer;
+}
+
  #createButton {
      margin-left: 10px;
      display: block;
 }
  select:hover, button:hover {
      border-color: #4285F4;
-     background-color: rgba(33, 150, 243, .04);
-}
- button:active {
-     border: 2px solid;
+     background-color: rgba(66, 133, 244, .04)
 }
  .tweet-frame {
      border: 1px solid;
@@ -71,7 +73,7 @@ body {
 }
  .char-count {
      font-size: small;
-     color: gray;
+     color: #666666;
      margin-left: 10px;
      margin-right: 10px;
 }
@@ -90,12 +92,14 @@ body {
 	padding: 4px;
 	outline: none;
 	background-color: rgba(242, 242, 242, 0.4);
+	margin-right: 4px;
 	cursor: pointer;
 }
 .edit-button:hover {
 	color: #999999;
 	border-color: #999999;
 }
+
  #button-container {
      display: flex;
      align-items: center;
@@ -162,15 +166,15 @@ body {
      margin-top: 20px;
 }
  #launch-mastodon {
-     background-color: #595aff;
-     border-color: #595aff;
+     background-color: #6364ff;
+     border-color: #6364ff;
      color: #ffffff;
      margin-left: 10px;
      cursor: pointer;
 }
  #launch-mastodon:hover {
-     background-color: #8080ff;
-     border-color: #8080ff;
+     background-color: #563acc;
+     border-color: #563acc;
 }
  .close {
      float: right;
@@ -196,29 +200,30 @@ body {
      margin-right: 10px;
      color: #4285F4;
      width: auto;
+     font-size: small;
 }
- .init-x {
+ .init-x, .init-threads {
      background-color: #000000;
      color: #ffffff;
      border-color: #000000;
      padding-left: 1em;
      padding-right: 1em;
 }
- .init-x:hover {
+ .init-x:hover, .init-threads:hover {
      background-color: #404040;
      border-color: #404040;
      cursor: pointer;
 }
  .init-masto {
-     background-color: #595aff;
-     border-color: #595aff;
+     background-color: #6364ff;
+     border-color: #6364ff;
      color: #ffffff;
      padding-left: 1em;
      padding-right: 1em;
 }
  .init-masto:hover {
-     background-color: #8080ff;
-     border-color: #8080ff;
+     background-color: #563acc;
+     border-color: #563acc;
      cursor: pointer;
 }
  .init-bsky {
@@ -239,7 +244,7 @@ textarea {
 }
 
 .edit-inst {
-	font: x-small;
+	font-size: small;
 	color: #4285F4;
 }
 
@@ -251,4 +256,39 @@ textarea {
 	position: relative;
 	top: 5px;
 }
- 
+
+.cancel-dialog {
+	display: none;
+  	position: fixed;
+  	z-index: 1;
+  	color: #4285F4;
+  	background-color: rgba(128, 128, 128, 0.4);
+  	left: 0;
+  	top: 0;
+  	height: 100%;
+  	width: 100%;
+  	text-align: center;
+}
+
+#cancel-container {
+  	margin: 15% auto;
+  	width: 30%;
+  	background-color: white;
+  	padding: 4em;
+  	border-radius: 10px;
+}
+
+#no-button, #yes-button {
+	margin: 4px;
+}
+
+#yes-button, .cancel-button {
+	background-color: rgb(209, 16, 67);
+	border: solid 1px rgb(209, 16, 67);
+	color: white;
+}
+
+#yes-button:hover, .cancel-button:hover, .cancel-button:focus {
+	background-color: rgba(209, 16, 67, 0.8);
+	color: white;
+}

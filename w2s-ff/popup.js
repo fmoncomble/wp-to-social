@@ -24,11 +24,9 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log('URL in popup: ', url);
 
             const spinner = document.getElementById('loading-spinner');
-//             const retrieveMessage = document.getElementById('retrieveMessage');
             spinner.style.display = 'none';
             retrieveMessage.style.display = 'none';
 
-//             const extractButton = document.getElementById("extractButton");
             extractButton.style.display = 'block';
             extractButton.addEventListener("click", function() {
                 if (!url) {
