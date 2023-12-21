@@ -117,6 +117,7 @@ ${postUrl}`;
 			ouText.textContent = chrome.i18n.getMessage('or');
 			
 			const copyButton = document.getElementsByClassName('copy-button')[0];
+			const firstPost = document.getElementsByClassName('tweet-frame')[0];
 			
 			const initButton = document.createElement('button');
 			initButton.classList.add('init-thread');
@@ -143,18 +144,24 @@ ${postUrl}`;
 			} else if (socialOption.selectedOptions[0].label === 'Bluesky') {
 				initText.textContent = chrome.i18n.getMessage('initBsky');
 				initButton.classList.add('init-bsky');
-				ouText.textContent = chrome.i18n.getMessage('and');
-				copyButton.after(ouText);
-				ouText.after(initButton);
+				copyButton.before(ouText);
+				ouText.before(initButton);
+				const warningBsky = document.createElement('div');
+				warningBsky.classList.add('warningBsky');
+				warningBsky.textContent = chrome.i18n.getMessage('warning');
+				firstPost.appendChild(warningBsky);
 			} else if (socialOption.selectedOptions[0].label === 'Threads') {
 				const threadsIcon = document.createElement('img');
 				initIcon.src = 'icons/threads-icon.svg';
 				initText.before(initIcon);
 				initText.textContent = chrome.i18n.getMessage('initThreads');
 				initButton.classList.add('init-threads');
-				ouText.textContent = chrome.i18n.getMessage('and');
-				copyButton.after(ouText);
-				ouText.after(initButton);
+				copyButton.before(ouText);
+				ouText.before(initButton);
+				const warningThreads = document.createElement('div');
+				warningThreads.classList.add('warningThreads');
+				warningThreads.textContent = chrome.i18n.getMessage('warning');
+				firstPost.appendChild(warningThreads);
 			};
 
 			initButton.addEventListener('click', () => {
@@ -428,7 +435,7 @@ ${postUrl}`;
 	function initiateThread (initButton) {
 		const posts = tweetContainer.querySelectorAll('.tweet-frame');
 		const firstPost = posts[0];
-		const firstPostText = firstPost.querySelector('p').textContent;
+		let firstPostText = firstPost.querySelector('p').textContent;
 		if (socialOption.selectedOptions[0].label === '𝕏 / Twitter') {
 			const tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(firstPostText)
 			chrome.tabs.create({
@@ -452,15 +459,53 @@ ${postUrl}`;
 				};
 			});
 		} else if (socialOption.selectedOptions[0].label === 'Bluesky') {
-			const bskyUrl = 'https://bsky.app';
+			const bskyUrl = 'https://bsky.app';			
 			chrome.tabs.create({
 				url: bskyUrl
 			});
+			let port;
+			chrome.runtime.onConnect.addListener(connect);
+			function connect(p) {
+				port = p;
+				console.assert(port.name === 'bskyjs');
+				port.onMessage.addListener((msg) => respond(msg));
+				function respond(msg) {
+					console.log('Message from bskyjs: ', msg.action);
+					if (msg.action === 'readyToPost') {
+						port.postMessage({ response: firstPostText });
+					}
+				};
+				port.onMessage.removeListener(respond);
+				port.onDisconnect.addListener(() => {
+					console.log('Port disconnected');
+					port = null;
+				});
+				chrome.runtime.onConnect.removeListener(connect);
+			};
 		} else if (socialOption.selectedOptions[0].label === 'Threads') {
-			const threadsUrl = 'https://threads.net';
+			const threadsUrl = 'https://www.threads.net/';
 			chrome.tabs.create({
 				url: threadsUrl
 			});
+			let port;
+			chrome.runtime.onConnect.addListener(connect);
+			function connect(p) {
+				port = p;
+				console.assert(port.name === 'threadsjs');
+				port.onMessage.addListener((msg) => respond(msg));
+				function respond(msg) {
+					console.log('Message from threadsjs: ', msg.action);
+					if (msg.action === 'readyForThread') {
+						port.postMessage({ response: firstPostText });
+					}
+				};
+				port.onMessage.removeListener(respond);
+				port.onDisconnect.addListener(() => {
+					console.log('Port disconnected');
+					port = null;
+				});
+				chrome.runtime.onConnect.removeListener(connect);
+			};
 		};
 	};
 	
@@ -480,7 +525,7 @@ ${postUrl}`;
 					};
 					console.log('Mastodon instance found: ', instUrl);
 					modal.style.display = 'none';
-					const mastoUrl = instUrl + '/share?text=' + encodeURIComponent(firstPostText);
+					const mastoUrl = instUrl + '/home?text=' + encodeURIComponent(firstPostText);
 					chrome.tabs.create({
 						url: mastoUrl
 					});

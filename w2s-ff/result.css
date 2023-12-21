@@ -292,3 +292,17 @@ textarea {
 	background-color: rgba(209, 16, 67, 0.8);
 	color: white;
 }
+
+.warningBsky {
+	display: block;
+	font-size: x-small;
+	color: #0060df;
+	margin-top: 4px;
+}
+
+.warningThreads {
+	display: block;
+	font-size: x-small;
+	color: #000000;
+	margin-top: 4px;
+}

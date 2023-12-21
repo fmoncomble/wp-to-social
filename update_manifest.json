@@ -65,6 +65,10 @@
         {
           "version": "2.2",
           "update_link": "https://github.com/fmoncomble/wp-to-social/releases/download/v2.2/wp-to-social.xpi"
+        },
+        {
+          "version": "2.3",
+          "update_link": "https://github.com/fmoncomble/wp-to-social/releases/download/v2.3/wp-to-social.xpi"
         }
         
     ]

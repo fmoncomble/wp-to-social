@@ -117,6 +117,7 @@ ${postUrl}`;
 			ouText.textContent = browser.i18n.getMessage('or');
 			
 			const copyButton = document.getElementsByClassName('copy-button')[0];
+			const firstPost = document.getElementsByClassName('tweet-frame')[0];
 			
 			const initButton = document.createElement('button');
 			initButton.classList.add('init-thread');
@@ -143,18 +144,24 @@ ${postUrl}`;
 			} else if (socialOption.selectedOptions[0].label === 'Bluesky') {
 				initText.textContent = browser.i18n.getMessage('initBsky');
 				initButton.classList.add('init-bsky');
-				ouText.textContent = browser.i18n.getMessage('and');
-				copyButton.after(ouText);
-				ouText.after(initButton);
+				copyButton.before(ouText);
+				ouText.before(initButton);
+				const warningBsky = document.createElement('div');
+				warningBsky.classList.add('warningBsky');
+				warningBsky.textContent = browser.i18n.getMessage('warning');
+				firstPost.appendChild(warningBsky);
 			} else if (socialOption.selectedOptions[0].label === 'Threads') {
 				const threadsIcon = document.createElement('img');
 				initIcon.src = 'icons/threads-icon.svg';
 				initText.before(initIcon);
 				initText.textContent = browser.i18n.getMessage('initThreads');
 				initButton.classList.add('init-threads');
-				ouText.textContent = browser.i18n.getMessage('and');
-				copyButton.after(ouText);
-				ouText.after(initButton);
+				copyButton.before(ouText);
+				ouText.before(initButton);
+				const warningThreads = document.createElement('div');
+				warningThreads.classList.add('warningThreads');
+				warningThreads.textContent = browser.i18n.getMessage('warning');
+				firstPost.appendChild(warningThreads);
 			};
 
 			initButton.addEventListener('click', () => {
@@ -453,15 +460,53 @@ ${postUrl}`;
 				};
 			});
 		} else if (socialOption.selectedOptions[0].label === 'Bluesky') {
-			const bskyUrl = 'https://bsky.app';
+			const bskyUrl = 'https://bsky.app';			
 			browser.tabs.create({
 				url: bskyUrl
 			});
+			let port;
+			browser.runtime.onConnect.addListener(connect);
+			function connect(p) {
+				port = p;
+				console.assert(port.name === 'bskyjs');
+				port.onMessage.addListener((msg) => respond(msg));
+				function respond(msg) {
+					console.log('Message from bskyjs: ', msg.action);
+					if (msg.action === 'readyToPost') {
+						port.postMessage({ response: firstPostText });
+					}
+				};
+				port.onMessage.removeListener(respond);
+				port.onDisconnect.addListener(() => {
+					console.log('Port disconnected');
+					port = null;
+				});
+				browser.runtime.onConnect.removeListener(connect);
+			};
 		} else if (socialOption.selectedOptions[0].label === 'Threads') {
-			const threadsUrl = 'https://threads.net';
+			const threadsUrl = 'https://www.threads.net/';
 			browser.tabs.create({
 				url: threadsUrl
 			});
+			let port;
+			browser.runtime.onConnect.addListener(connect);
+			function connect(p) {
+				port = p;
+				console.assert(port.name === 'threadsjs');
+				port.onMessage.addListener((msg) => respond(msg));
+				function respond(msg) {
+					console.log('Message from threadsjs: ', msg.action);
+					if (msg.action === 'readyForThread') {
+						port.postMessage({ response: firstPostText });
+					}
+				};
+				port.onMessage.removeListener(respond);
+				port.onDisconnect.addListener(() => {
+					console.log('Port disconnected');
+					port = null;
+				});
+				browser.runtime.onConnect.removeListener(connect);
+			};
 		};
 	};
 	
@@ -481,7 +526,7 @@ ${postUrl}`;
 					};
 					console.log('Mastodon instance found: ', instUrl);
 					modal.style.display = 'none';
-					const mastoUrl = instUrl + '/share?text=' + encodeURIComponent(firstPostText);
+					const mastoUrl = instUrl + '/home?text=' + encodeURIComponent(firstPostText);
 					browser.tabs.create({
 						url: mastoUrl
 					});
@@ -514,7 +559,7 @@ ${postUrl}`;
 	// Function to reset copy button
 	function resetCopyButton (copyButton) {
 		copyButton.removeAttribute('style');
-		copyButton.textContent = chrome.i18n.getMessage('copy');
+		copyButton.textContent = browser.i18n.getMessage('copy');
 	}
 
     //Function to copy text to clipboard
@@ -567,7 +612,7 @@ ${postUrl}`;
 			copyButton.style.backgroundColor = '#e6ffe6';
 			copyButton.style.color = '#006600';
 			copyButton.style.borderColor = '#006600';
-			copyButton.textContent = chrome.i18n.getMessage('copied');
+			copyButton.textContent = browser.i18n.getMessage('copied');
         } catch (error) {
             console.error('Error copying image to clipboard: ', error);
             copyButton.style.backgroundColor = '#ffe6e6';

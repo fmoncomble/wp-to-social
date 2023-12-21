@@ -54,11 +54,15 @@
 	},
 	
 	"initBsky": {
-		"message": "Open Bluesky"
+		"message": "Initiate thread on Bluesky"
+	},
+	
+	"warning": {
+		"message": "⚠️ You must be logged in for this to work"
 	},
 	
 	"initThreads": {
-		"message": "\u00A0 Open Threads"
+		"message": "\u00A0 Initiate thread on Threads"
 	},
 	
 	"copy": {

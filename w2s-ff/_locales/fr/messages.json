@@ -54,11 +54,15 @@
 	},
 	
 	"initBsky": {
-		"message": "Ouvrir Bluesky"
+		"message": "Initier le fil sur Bluesky"
+	},
+	
+	"warning": {
+		"message": "⚠️ Vous devez être authentifié avant d'initier le fil"
 	},
 	
 	"initThreads": {
-		"message": "\u00A0 Ouvrir Threads"
+		"message": "\u00A0 Initier le fil sur Threads"
 	},
 	
 	"copy": {
