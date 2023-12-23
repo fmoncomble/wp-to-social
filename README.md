@@ -1,6 +1,6 @@
 # ![icon-48](https://github.com/fmoncomble/wp-to-social/assets/59739627/de76d460-0973-4e14-8e47-cf291d6c9752) WP to Social, une extension pour Firefox & Chrome/Edge
-Extraire et segmenter un billet de blog Wordpress pour le poster sur 𝕏/Twitter, Mastodon ou Bluesky.  
-Extract and segment a Wordpress blog post for publication on 𝕏/Twitter, Mastodon or Bluesky.
+Extraire et segmenter un billet de blog Wordpress pour le poster sur 𝕏/Twitter, Mastodon, Bluesky ou Threads.  
+Extract and segment a Wordpress blog post for publication on 𝕏/Twitter, Mastodon, Bluesky ou Threads.
 
 ## Installation
 ### Firefox
