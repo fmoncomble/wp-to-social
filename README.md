@@ -11,7 +11,7 @@ Extract and segment a Wordpress blog post for publication on 𝕏/Twitter, Masto
 ## Mode d'emploi (Scroll down for English)
 - Penser à épingler l'extension dans la barre d'outils.
 - Ouvrir un billet de blog Wordpress (extension compatible avec les blogs auto-hébergés et sous wordpress.com).
-- Cliquer sur l'icône ![icon-32](https://github.com/fmoncomble/wp-to-social/assets/59739627/9bb45fec-76ed-4a9a-8799-b49bbc7f9a49) dans la barre d'outils puis sur `Commencer l'extraction`.
+- Cliquer sur l'icône ![icon-32](https://github.com/fmoncomble/wp-to-social/assets/59739627/339e8e9b-4076-4b38-b071-0b827e168815) dans la barre d'outils puis sur `Commencer l'extraction`.
 - Sélectionner le réseau social de destination (𝕏/Twitter, Mastodon ou Bluesky) et cliquer sur `Créer le fil`.
 - Chaque post peut être modifié en cliquant sur le bouton `Modifier` ou directement dans le texte.
 - Cliquer sur `Copier` sous chaque post pour l'enregistrer dans le presse-papier et le coller plus tard.
@@ -21,7 +21,7 @@ Extract and segment a Wordpress blog post for publication on 𝕏/Twitter, Masto
 ## How-to
 - Remember to pin the add-on to the toolbar.
 - Open a Wordpress blog post (the add-on is compatible both with self-hosted and wordpress.com blogs, regardless of domain).
-- Click the icon ![icon-32](https://github.com/fmoncomble/wp-to-social/assets/59739627/9bb45fec-76ed-4a9a-8799-b49bbc7f9a49) in the toolbar, then `Begin extraction`.
+- Click the icon ![icon-32](https://github.com/fmoncomble/wp-to-social/assets/59739627/339e8e9b-4076-4b38-b071-0b827e168815) in the toolbar, then `Begin extraction`.
 - Select your social network (𝕏/Twitter, Mastodon or Bluesky) and click `Create thread`.
 - Each post can be edited by clicking the `Edit` button or its text.
 - Click `Copy` under each post to save it to the clipboard for pasting.
