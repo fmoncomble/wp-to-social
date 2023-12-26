@@ -47,7 +47,6 @@ async function triggerPost() {
 
             let newPostButton = await findPostButton();
             if (newPostButton) {
-                console.log('New post button located: ', newPostButton);
                 await clickPostButton(newPostButton);
                 await inputText(text);
             } else {
@@ -61,12 +60,25 @@ async function triggerPost() {
     }
 }
 
-function findPostButton() {
+function findPostButton(retryCount = 5) {
     return new Promise((resolve) => {
-        setTimeout(() => {
+    	const tryFindButton = () => {
             let newPostButton = document.querySelector("button[aria-label*='post']");
-            resolve(newPostButton);
-        }, 500);
+            if (newPostButton) {
+            	console.log('New post button located: ', newPostButton);
+            	resolve(newPostButton);
+            } else {
+            	if (retryCount > 0) {
+            		console.log(`⚠️ Could not find new post button, retrying. Retries left: ${retryCount}`);
+            		setTimeout(tryFindButton, 500);
+            		retryCount--;
+            	} else {
+            		console.error('Maximum retries reached. Could not locate new post button');
+            		resolve(null);
+            	}
+            }
+        };
+        tryFindButton();
     });
 }
 

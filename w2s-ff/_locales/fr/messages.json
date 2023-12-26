@@ -34,7 +34,7 @@
 	},
 	
 	"initX": {
-		"message": "Initier le fil sur 𝕏"
+		"message": "Initier le fil sur \u00A0"
 	},
 	
 	"initMasto": {
@@ -54,7 +54,7 @@
 	},
 	
 	"initBsky": {
-		"message": "Initier le fil sur Bluesky"
+		"message": "\u00A0 Initier le fil sur Bluesky"
 	},
 	
 	"warning": {

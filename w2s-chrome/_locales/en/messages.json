@@ -34,7 +34,7 @@
 	},
 	
 	"initX": {
-		"message": "Initiate thread on 𝕏"
+		"message": "Initiate thread on \u00A0"
 	},
 	
 	"initMasto": {
@@ -54,7 +54,7 @@
 	},
 	
 	"initBsky": {
-		"message": "Initiate thread on Bluesky"
+		"message": "\u00A0 Initiate thread on Bluesky"
 	},
 	
 	"warning": {

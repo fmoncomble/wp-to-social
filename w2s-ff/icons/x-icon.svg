@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="96.000053"
+   height="96.000053"
+   viewBox="0 0 25.400015 25.400014"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c8708, 2021-01-15)"
+   sodipodi:docname="x-icon.svg"
+   inkscape:export-filename="/Users/florent/Desktop/x-icon.png"
+   inkscape:export-xdpi="73.059998"
+   inkscape:export-ydpi="73.059998">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.6562465"
+     inkscape:cx="48.000024"
+     inkscape:cy="48.00001"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1252"
+     inkscape:window-height="847"
+     inkscape:window-x="484"
+     inkscape:window-y="55"
+     inkscape:window-maximized="0"
+     units="px"
+     showborder="false"
+     inkscape:pagecheckerboard="true" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-82.451718,-112.48722)">
+    <g
+       aria-label="𝕏"
+       id="text835"
+       style="font-style:normal;font-weight:normal;font-size:38.66060000000000230px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.966516">
+      <path
+         d="m 107.85173,137.88724 -10.399699,-14.57505 9.510509,-10.82497 h -2.165 l -8.312024,9.47185 -6.649623,-9.47185 h -7.384175 l 9.897113,14.11112 -9.897113,11.2889 h 2.087673 l 8.775955,-9.97444 6.997564,9.97444 z m -3.17017,-1.62375 h -3.44079 L 85.544566,114.11097 h 3.402133 z"
+         style="fill:#ffffff;stroke-width:0.966516"
+         id="path1449" />
+    </g>
+  </g>
+</svg>

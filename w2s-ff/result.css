@@ -58,6 +58,7 @@ button {
      border-radius: 10px;
      width: 478px;
      text-align: left;
+     font-size: smaller;
      padding: 10px;
      margin-top: 10px;
      margin-bottom: 10px;
@@ -262,7 +263,7 @@ textarea {
   	position: fixed;
   	z-index: 1;
   	color: #4285F4;
-  	background-color: rgba(128, 128, 128, 0.4);
+  	background-color: rgba(128, 128, 128, 0.6);
   	left: 0;
   	top: 0;
   	height: 100%;
@@ -274,12 +275,18 @@ textarea {
   	margin: 15% auto;
   	width: 30%;
   	background-color: white;
-  	padding: 4em;
+  	padding: 4em;  	
+	color: rgb(209, 16, 67);
+	border: solid 2px rgb(209, 16, 67);
   	border-radius: 10px;
 }
 
 #no-button, #yes-button {
 	margin: 4px;
+}
+
+#no-button {
+	color: #4285F4;
 }
 
 #yes-button, .cancel-button {

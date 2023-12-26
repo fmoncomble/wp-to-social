@@ -129,12 +129,13 @@ ${postUrl}`;
 			initIcon.style.verticalAlign = 'middle';
 			
 			if (socialOption.selectedOptions[0].label === '𝕏 / Twitter') {
+				initIcon.src = 'icons/x-icon.svg';
+				initText.after(initIcon);
 				initText.textContent = chrome.i18n.getMessage('initX');
 				initButton.classList.add('init-x');
 				copyButton.before(ouText);
 				ouText.before(initButton);
 			} else if (socialOption.selectedOptions[0].label === 'Mastodon') {
-				const mastoIcon = document.createElement('img');
 				initIcon.src = 'icons/masto-logo-white.svg';
 				initText.before(initIcon);
 				initText.textContent = chrome.i18n.getMessage('initMasto');
@@ -142,6 +143,8 @@ ${postUrl}`;
 				copyButton.before(ouText);
 				ouText.before(initButton);
 			} else if (socialOption.selectedOptions[0].label === 'Bluesky') {
+				initIcon.src = 'icons/bsky-icon.svg';
+				initText.before(initIcon);
 				initText.textContent = chrome.i18n.getMessage('initBsky');
 				initButton.classList.add('init-bsky');
 				copyButton.before(ouText);
@@ -151,7 +154,6 @@ ${postUrl}`;
 				warningBsky.textContent = chrome.i18n.getMessage('warning');
 				firstPost.appendChild(warningBsky);
 			} else if (socialOption.selectedOptions[0].label === 'Threads') {
-				const threadsIcon = document.createElement('img');
 				initIcon.src = 'icons/threads-icon.svg';
 				initText.before(initIcon);
 				initText.textContent = chrome.i18n.getMessage('initThreads');
